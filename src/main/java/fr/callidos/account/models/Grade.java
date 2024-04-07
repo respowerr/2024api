@@ -13,9 +13,11 @@ public class Grade {
     @Column(length = 20)
     private Egrades name;
 
-    public Grade(){}
+    public Grade() {
 
-    public Grade(Egrades name){
+    }
+
+    public Grade(Egrades name) {
         this.name = name;
     }
 
@@ -23,12 +25,12 @@ public class Grade {
         return id;
     }
 
-    public Egrades getName() {
-        return name;
-    }
-
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Egrades getName() {
+        return name;
     }
 
     public void setName(Egrades name) {
