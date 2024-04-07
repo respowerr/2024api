@@ -18,4 +18,20 @@ public class Grade {
     public Grade(Egrades name){
         this.name = name;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Egrades getName() {
+        return name;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(Egrades name) {
+        this.name = name;
+    }
 }
