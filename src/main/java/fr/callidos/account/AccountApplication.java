@@ -7,7 +7,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AccountApplication {
 
     public static void main(String[] args) {
+        System.out.println("" +
+                " | | | | ____| |   |_ _\\ \\/ /            / \\  / ___|_   _|\n" +
+                " | |_| |  _| | |    | | \\  /   _____    / _ \\| |     | |  \n" +
+                " |  _  | |___| |___ | | /  \\  |_____|  / ___ \\ |___  | |  \n" +
+                " |_| |_|_____|_____|___/_/\\_\\         /_/   \\_\\____| |_|  " +
+                " 0.0.1 ");
         SpringApplication.run(AccountApplication.class, args);
+
+
     }
 
 }
