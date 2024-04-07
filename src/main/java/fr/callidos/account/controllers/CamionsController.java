@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
+import java.util.List;
 
 @RestController
 @RequestMapping("/camions")
@@ -23,6 +23,11 @@ public class CamionsController {
         return ResponseEntity.ok(camion);
     }
 
+    @GetMapping
+    public ResponseEntity<List<CamionsModel>> getCamions() {
+        List<CamionsModel> camions = camionRepository.findAll();
+        return ResponseEntity.ok(camions);
+    }
 
     @PostMapping
     public ResponseEntity<String> ajouterCamion(@RequestBody CamionsModel camion) {
