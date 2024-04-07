@@ -1,12 +1,12 @@
 package fr.callidos.account.models;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "users",
@@ -24,19 +24,19 @@ public class User {
     private String username;
 
     @NotBlank
-    @Size(max = 50)
+    @Size(max = 100)
     @Email
     private String email;
 
     @NotBlank
-    @Size(max = 120)
+    @Size(max = 255)
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(  name = "user_grades",
+    @JoinTable(  name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "grade_id"))
-    private Set<Grade> roles = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -79,11 +79,11 @@ public class User {
         this.password = password;
     }
 
-    public Set<Grade> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Grade> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 }
