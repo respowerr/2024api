@@ -1,13 +1,22 @@
-# ACCOUNT - API
+# HELIX  - SUPER API
 
-Manage accounts and auth for H E L I X
+The 3 original apis merged into a single one.
 
 ## Paths :
 - #### Endpoint : /account
-- /register (POST)
-- /login (POST)
-- /id (GET, POST, PUT, DELETE) ON JWT PROTECT.
+    - /register (POST)
+    - /login (POST)
+    - /id (GET, POST, PUT, DELETE) ON JWT PROTECT.
+  
+On GET Method, the endpoint return all accounts ONLY for admins.  
+- #### Endpoint : /stock
+    - /warehouse (GET, POST, PUT, DELETE)
+- #### Endpoint : /event
+    - /id (GET, PUT, DELETE)
+    - /type (NOT FOR NOW, sort by type of event)
 
-On GET Method, the endpoint return all accounts ONLY for admins.
+On GET Method, the endpoint return all events ONLY for members.
+
+
 
 © 2024 CALLIDOS GROUP
