@@ -16,6 +16,12 @@ On GET Method, the endpoint return all accounts ONLY for admins.
     - /type (NOT FOR NOW, sort by type of event)
 
 On GET Method, the endpoint return all events ONLY for members.
+  
+  
+- #### Endpoint : /camions
+    - /id (GET, PUT, DELETE), Get, Put, Delete ONLY for USER_ADMIN.
+
+On GET Method, the endpoint return all trucks.
 
 
 
