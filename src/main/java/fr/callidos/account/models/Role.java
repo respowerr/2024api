@@ -3,21 +3,21 @@ package fr.callidos.account.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "grades")
-public class Grade {
+@Table(name = "roles")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private Egrades name;
+    private ERole name;
 
-    public Grade() {
+    public Role() {
 
     }
 
-    public Grade(Egrades name) {
+    public Role(ERole name) {
         this.name = name;
     }
 
@@ -29,11 +29,11 @@ public class Grade {
         this.id = id;
     }
 
-    public Egrades getName() {
+    public ERole getName() {
         return name;
     }
 
-    public void setName(Egrades name) {
+    public void setName(ERole name) {
         this.name = name;
     }
 }
