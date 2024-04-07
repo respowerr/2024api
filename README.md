@@ -1,6 +1,6 @@
 # HELIX  - SUPER API
 
-The 3 original apis merged into a single one.
+The 4 original apis merged into a single one.
 
 ## Paths :
 - #### Endpoint : /account
