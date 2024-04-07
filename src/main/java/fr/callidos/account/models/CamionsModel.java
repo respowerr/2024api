@@ -1,6 +1,7 @@
 package fr.callidos.account.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "camions")
@@ -11,6 +12,7 @@ public class CamionsModel {
     private Long id;
 
     @Column(name = "plaque_immatriculation")
+    @Size(min = 9, max = 10)
     private String plaqueImmatriculation;
 
     private int capacite;
