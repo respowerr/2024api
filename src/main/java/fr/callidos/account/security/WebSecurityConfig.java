@@ -61,6 +61,7 @@ public class WebSecurityConfig {
                         auth.requestMatchers("/account/**").permitAll()
                                 .requestMatchers("/stock/**").permitAll()
                                 .requestMatchers("/event/**").permitAll()
+                                .requestMatchers("/camions/**").permitAll()
                                 .anyRequest().authenticated()
                 );
 
