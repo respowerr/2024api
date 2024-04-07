@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
@@ -24,27 +23,63 @@ public class User {
     private String username;
 
     @NotBlank
-    @Size(max = 100)
+    @Size(max = 20)
+    private String name;
+
+    @NotBlank
+    @Size(max = 20)
+    private String lastName;
+
+    @NotBlank
+    @Size(max = 50)
     @Email
     private String email;
 
     @NotBlank
-    @Size(max = 255)
+    @Size(max = 120)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(  name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    @NotBlank
+    @Size(max = 10)
+    private String phone;
+
+    @Column(name = "role")
+    private String role;
 
     public User() {
     }
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, String name, String lastName, String phone) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.name = name;
+        this.lastName = lastName;
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public Long getId() {
@@ -79,11 +114,11 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public String getRole() {
+        return role;
     }
 }

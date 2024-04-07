@@ -1,18 +1,12 @@
 package fr.callidos.account.controllers;
-
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import fr.callidos.account.models.Role;
 import fr.callidos.account.models.User;
-import fr.callidos.account.models.ERole;
 import fr.callidos.account.payload.request.LoginRequest;
 import fr.callidos.account.payload.request.SignupRequest;
 import fr.callidos.account.payload.response.JwtResponse;
 import fr.callidos.account.payload.response.MessageResponse;
-import fr.callidos.account.repository.RoleRepository;
 import fr.callidos.account.repository.UserRepository;
 import fr.callidos.account.security.jwt.JwtUtils;
 import fr.callidos.account.security.services.UserDetailsImpl;
@@ -43,15 +37,12 @@ public class AuthController {
     UserRepository userRepository;
 
     @Autowired
-    RoleRepository roleRepository;
-
-    @Autowired
     PasswordEncoder encoder;
 
     @Autowired
     JwtUtils jwtUtils;
 
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
@@ -72,12 +63,12 @@ public class AuthController {
                 roles));
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+                    .body(new MessageResponse("Error: Username is already in use!"));
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -86,42 +77,13 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        // Create new user's account
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()), signUpRequest.getName(), signUpRequest.getLastName(), signUpRequest.getPhone());
+        user.setName(signUpRequest.getName());
+        user.setLastName(signUpRequest.getLastName());
+        user.setRole("ROLE_USER");
 
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
-
-                        break;
-                    case "mod":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
-
-                        break;
-                    default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
-                }
-            });
-        }
-
-        user.setRoles(roles);
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
