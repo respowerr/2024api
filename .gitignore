@@ -1,5 +1,6 @@
 HELP.md
 .gradle
+/src/main/java/fr/callidos/account/controllers/TestController.java
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
