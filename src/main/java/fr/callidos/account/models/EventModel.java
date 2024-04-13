@@ -22,12 +22,10 @@ public class EventModel {
     @Size(min = 3, max = 20)
     private String eventType;
 
-    @Column(name = "event_start")
-    @Timestamp
+    @Column(name = "event_start", columnDefinition = "DATETIME")
     private Date eventStart;
 
-    @Column(name = "event_end")
-    @Timestamp
+    @Column(name = "event_end", columnDefinition = "DATETIME")
     private Date eventEnd;
 
     @Column(name = "members")
