@@ -33,10 +33,6 @@ public class CamionsModel {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getPlaqueImmatriculation() {
         return plaqueImmatriculation;
     }
