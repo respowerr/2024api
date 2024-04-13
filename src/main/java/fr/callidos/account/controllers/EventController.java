@@ -51,6 +51,7 @@ public class EventController {
         event.setEventType(eventDetails.getEventType());
         event.setLocation(eventDetails.getLocation());
         event.setMembers(eventDetails.getMembers());
+        event.setDescription(eventDetails.getDescription());
         eventRepository.save(event);
         return ResponseEntity.ok("Event " + id + " was modified successfully.");
     }
