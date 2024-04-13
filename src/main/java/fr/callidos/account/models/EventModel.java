@@ -34,13 +34,25 @@ public class EventModel {
     @Size(min = 5, max = 50)
     private String location;
 
-    public EventModel(String eventName, String eventType, Date eventStart, Date eventEnd, String members, String location) {
+    @Column(name = "description")
+    private String description;
+
+    public EventModel(String eventName, String eventType, Date eventStart, Date eventEnd, String members, String location, String description) {
         this.eventName = eventName;
         this.eventType = eventType;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
         this.members = members;
         this.location = location;
+        this.description = description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public EventModel() {}
