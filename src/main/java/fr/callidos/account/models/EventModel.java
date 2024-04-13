@@ -43,6 +43,8 @@ public class EventModel {
         this.location = location;
     }
 
+    public EventModel() {}
+
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
