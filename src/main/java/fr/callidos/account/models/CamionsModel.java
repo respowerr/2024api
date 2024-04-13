@@ -61,14 +61,4 @@ public class CamionsModel {
         this.tourneeId = tourneeId;
     }
 
-    //pour le débogage
-    @Override
-    public String toString() {
-        return "CamionsModel{" +
-                "id=" + id +
-                ", plaqueImmatriculation='" + plaqueImmatriculation + '\'' +
-                ", capacite=" + capacite +
-                ", tourneeId=" + tourneeId +
-                '}';
-    }
 }
