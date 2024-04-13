@@ -1,8 +1,8 @@
 package fr.callidos.account.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import jdk.jfr.Timestamp;
 import java.sql.Date;
 
 @Entity
@@ -15,23 +15,28 @@ public class EventModel {
     Long id;
 
     @Column(name = "event_name")
+    @NotBlank
     @Size(min = 4, max = 20)
     private String eventName;
 
     @Column(name = "event_type")
+    @NotBlank
     @Size(min = 3, max = 20)
     private String eventType;
 
     @Column(name = "event_start", columnDefinition = "DATETIME")
+    @NotBlank
     private Date eventStart;
 
     @Column(name = "event_end", columnDefinition = "DATETIME")
+    @NotBlank
     private Date eventEnd;
 
     @Column(name = "members")
     private String members;
 
     @Column(name = "location")
+    @NotBlank
     @Size(min = 5, max = 50)
     private String location;
 
