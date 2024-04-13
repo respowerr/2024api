@@ -2,7 +2,8 @@ package fr.callidos.account.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.TimeZoneColumn;
+import jdk.jfr.Timestamp;
+import org.hibernate.annotations.Type;
 
 import java.sql.Date;
 
@@ -21,10 +22,12 @@ public class EventModel {
     @Size(min = 3, max = 20)
     private String eventType;
 
-    @TimeZoneColumn(name = "event_start")
+    @Column(name = "event_start")
+    @Timestamp
     private Date eventStart;
 
-    @TimeZoneColumn(name = "event_end")
+    @Column(name = "event_end")
+    @Timestamp
     private Date eventEnd;
 
     @Column(name = "members")
@@ -47,12 +50,12 @@ public class EventModel {
         this.description = description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public EventModel() {}
