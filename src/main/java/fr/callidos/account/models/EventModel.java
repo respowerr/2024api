@@ -3,12 +3,12 @@ package fr.callidos.account.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import jdk.jfr.Timestamp;
-import org.hibernate.annotations.Type;
-
 import java.sql.Date;
 
 @Entity
-@Table(name = "events")
+@Table(name = "events", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "event_name")
+})
 public class EventModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
