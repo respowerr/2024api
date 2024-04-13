@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "camions")
+@Table(name = "camions", uniqueConstraints = { @UniqueConstraint(columnNames = "plaque_immatriculation")})
 public class CamionsModel {
 
     @Id
