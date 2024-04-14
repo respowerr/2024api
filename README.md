@@ -90,9 +90,9 @@ The 4 original apis merged into a single one.
   GET /event/{type}
 ```
 
-| Description                                                              |
-|:-------------------------------------------------------------------------|
-| **Required**. JWT Token with ROLE_USER <br/> Get all events with {type}. |
+| Parameter | Type     | Description                                                                   |
+|:----------|:---------|:------------------------------------------------------------------------------|
+| `{type}`  | `string` | **Required**. JWT Token with ROLE_USER<br/>Get all events with the same type. |
 
 #### Event selection
 
@@ -122,15 +122,56 @@ The 4 original apis merged into a single one.
 |:----------|:------|:------------------------------------------------------------|
 | `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Delete event. |
 
+## TRUCK - API
+
+#### List all trucks
+```http
+  GET /camions
+```
+
+| Description                                                   |
+|:--------------------------------------------------------------|
+| **Required**. JWT Token with ROLE_ADMIN <br/> Get all trucks. |
+
+#### Create a truck
+```http
+  POST /camions
+```
+
+| Body                                                   | Description                                                |
+|:-------------------------------------------------------|:-----------------------------------------------------------|
+| `plaqueImmatriculation`<br/>`capacite`<br/>`tourneeId` | **Required**. JWT Token with ROLE_ADMIN<br/> Create truck. |
+
+#### Truck selection
+
+```http
+  GET /camions/{id}
+```
+
+| Parameter | Type  | Description                                                               |
+|:----------|:------|:--------------------------------------------------------------------------|
+| `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN<br/>Get all infos about an truck. |
+
+
+```http
+  PUT /camions/{id}
+```
+
+| Parameter | Type  | Body                                                   | Description                                                                 |
+|:----------|:------|:-------------------------------------------------------|:----------------------------------------------------------------------------|
+| `{id}`    | `int` | `plaqueImmatriculation`<br/>`capacite`<br/>`tourneeId` | **Required**. JWT Token with ROLE_ADMIN<br/> Modify an truck information's. |
+
+
+```http
+  DELETE /camions/{id}
+```
+
+| Parameter | Type  | Description                                                 |
+|:----------|:------|:------------------------------------------------------------|
+| `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Delete truck. |
+
 ## Paths :
 - #### Endpoint : /stock
     - /warehouse (GET, POST, PUT, DELETE)
   
-- #### Endpoint : /camions
-    - /id (GET, PUT, DELETE), Put, Delete ONLY for admins.
-
-On GET Method, the endpoint return all trucks.
-
-
-
 © 2024 CALLIDOS GROUP
