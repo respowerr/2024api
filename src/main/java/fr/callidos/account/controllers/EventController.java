@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -50,7 +49,6 @@ public class EventController {
         event.setEventStart(eventDetails.getEventStart());
         event.setEventType(eventDetails.getEventType());
         event.setLocation(eventDetails.getLocation());
-        event.setUsers(eventDetails.getUsers());
         event.setDescription(eventDetails.getDescription());
         eventRepository.save(event);
         return ResponseEntity.ok("Event " + id + " was modified successfully.");
@@ -62,6 +60,4 @@ public class EventController {
         eventRepository.deleteById(id);
         return ResponseEntity.ok("Event " + id + " was deleted sucessfully.");
     }
-
-
 }

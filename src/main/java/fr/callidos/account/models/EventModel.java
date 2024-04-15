@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,14 +36,6 @@ public class EventModel {
     @NotBlank
     private Date eventEnd;
 
-    @ManyToMany
-    @JoinTable(
-            name = "members",
-            joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> users = new HashSet<>();
-
     @Column(name = "location")
     @NotBlank
     @Size(min = 5, max = 50)
@@ -50,26 +44,13 @@ public class EventModel {
     @Column(name = "description")
     private String description;
 
-    public EventModel(Set<User> users) {
-        this.users = users;
-    }
-
-    public EventModel(String eventName, String eventType, Date eventStart, Date eventEnd, Set<User> users, String location, String description) {
+    public EventModel(String eventName, String eventType, Date eventStart, Date eventEnd, String location, String description) {
         this.eventName = eventName;
         this.eventType = eventType;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
-        this.users = users;
         this.location = location;
         this.description = description;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
     }
 
     public String getDescription() {
