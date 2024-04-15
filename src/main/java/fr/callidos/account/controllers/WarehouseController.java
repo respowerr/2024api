@@ -1,57 +1,36 @@
 package fr.callidos.account.controllers;
 
-import jakarta.persistence.*;
+import fr.callidos.account.models.WarehouseModel;
+import fr.callidos.account.repository.WarehouseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-@Entity
-@Table(name = "warehouse")
+import java.util.List;
+
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
+@RequestMapping("/warehouse")
 public class WarehouseController {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
 
-    @Column(name = "location")
-    private String location;
+    @Autowired
+    private WarehouseRepository warehouseRepository;
 
-    @Column(name = "capacity")
-    private int capacity;
-
-    @Column(name = "item")
-    private String item;
-
-    public WarehouseController(Long id, String location, int capacity, String item) {
-        this.id = id;
-        this.location = location;
-        this.capacity = capacity;
-        this.item = item;
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @GetMapping
+    public ResponseEntity<List<WarehouseModel>> getAllWarehouses(){
+        List<WarehouseModel> warehouses = warehouseRepository.findAll();
+        return ResponseEntity.ok(warehouses);
+    }
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/{warehouse_id}")
+    public ResponseEntity<WarehouseModel> getWarehouseById(@PathVariable Long warehouse_id){
+        WarehouseModel warehouse = warehouseRepository.findById(warehouse_id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Warehouse " + warehouse_id + " not found."));
+        return ResponseEntity.ok(warehouse);
     }
 
-    public WarehouseController() {}
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public void setItem(String item) {
-        this.item = item;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public String getItem() {
-        return item;
-    }
 }

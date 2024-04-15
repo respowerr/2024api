@@ -1,4 +1,7 @@
 package fr.callidos.account.repository;
 
-public interface WarehouseRepository {
+import fr.callidos.account.models.WarehouseModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface WarehouseRepository extends JpaRepository<WarehouseModel, Long> {
 }
