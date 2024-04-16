@@ -14,16 +14,13 @@ import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -67,13 +64,13 @@ public class AuthController {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already use!"));
+                    .body(new MessageResponse("Username is already use."));
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Email is already use!"));
+                    .body(new MessageResponse("Email is already use."));
         }
 
         User user = new User(signUpRequest.getUsername(),
@@ -87,4 +84,15 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully, welcome to Helix !"));
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id){
+        if (!userRepository.existsById(id)){
+            return ResponseEntity.badRequest().body(new MessageResponse("User not found."));
+        }
+        userRepository.deleteById(id);
+        return ResponseEntity.ok(new MessageResponse("User number " + id + " deleted successfully."));
+    }
+
 }
