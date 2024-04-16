@@ -29,11 +29,9 @@ public class EventModel {
     private String eventType;
 
     @Column(name = "event_start", columnDefinition = "DATETIME")
-    @NotBlank
     private Date eventStart;
 
     @Column(name = "event_end", columnDefinition = "DATETIME")
-    @NotBlank
     private Date eventEnd;
 
     @Column(name = "location")
@@ -52,6 +50,7 @@ public class EventModel {
         this.location = location;
         this.description = description;
     }
+    public EventModel() {}
 
     public String getDescription() {
         return description;
@@ -60,8 +59,6 @@ public class EventModel {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public EventModel() {}
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
