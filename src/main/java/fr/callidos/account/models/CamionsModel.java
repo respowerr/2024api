@@ -13,12 +13,11 @@ public class CamionsModel {
     private Long id;
 
     @Column(name = "plaque_immatriculation")
-    @Size(min = 9, max = 10)
     @NotBlank
+    @Size(min = 9, max = 10)
     private String plaqueImmatriculation;
 
     @Column(name = "capacite")
-    @NotBlank
     private int capacite;
 
     @Column(name = "tournee_id")
