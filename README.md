@@ -170,8 +170,57 @@ The 4 original apis merged into a single one.
 |:----------|:------|:------------------------------------------------------------|
 | `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Delete truck. |
 
-## Paths :
-- #### Endpoint : /stock
-    - /warehouse (GET, POST, PUT, DELETE)
-  
+## WAREHOUSE - API
+
+#### List all warehouses with infos
+
+```http
+  GET /warehouse
+```
+
+| Description                                                                        | Response                                                                              |
+|:-----------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------|
+| **Required**. JWT Token with ROLE_USER<br/>Get and show all warehouses with infos. | `warehouse_id`<br/>`location`<br/>`capacity`<br/>`itemName`<br/>`count`<br/>`item_id` |
+#### Show a warehouse by id
+
+```http
+  GET /warehouse/{location}
+```
+
+| Parameter    | Type     | Description                                                                       | Response                                                                              |
+|:-------------|:---------|:----------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------|
+| `{location}` | `string` | **Required**. JWT Token with ROLE_USER<br/>Get and show all infos of a warehouse. | `warehouse_id`<br/>`location`<br/>`capacity`<br/>`itemName`<br/>`count`<br/>`item_id` |
+
+#### Add items 
+
+```http
+  POST /warehouse/{location}
+```
+
+| Parameter    | Type     | Body                   |                                                                             
+|:-------------|:---------|:-----------------------|
+| `{location}` | `string` | `itemName`<br/>`count` |
+
+#### Modify items name or count
+
+```http
+  PUT /warehouse/{location}
+```
+
+| Parameter    | Type     | Body                                 |                                                                             
+|:-------------|:---------|:-------------------------------------|
+| `{location}` | `string` | `item_id`<br/>`itemName`<br/>`count` |
+
+#### Delete items
+
+```http
+  DELETE /warehouse/{location}
+```
+
+| Parameter    | Type     | Body      |                                                                             
+|:-------------|:---------|:----------|
+| `{location}` | `string` | `item_id` |
+
+
+
 © 2024 CALLIDOS GROUP
