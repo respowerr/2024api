@@ -43,6 +43,9 @@ public class User {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "banned", nullable = false)
+    private boolean banned;
+
     public User() {
     }
 
@@ -53,6 +56,14 @@ public class User {
         this.name = name;
         this.lastName = lastName;
         this.phone = phone;
+    }
+
+    public boolean isBanned() {
+        return banned;
+    }
+
+    public void setBanned(boolean banned) {
+        this.banned = banned;
     }
 
     public String getPhone() {
