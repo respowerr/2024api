@@ -5,9 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "events", uniqueConstraints = {
@@ -16,7 +14,7 @@ import java.util.Set;
 public class EventModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Long event_id;
 
     @Column(name = "event_name")
     @NotBlank
@@ -41,6 +39,24 @@ public class EventModel {
 
     @Column(name = "description")
     private String description;
+
+    @ManyToMany
+    @JoinTable(
+            name = "event_members",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "id")
+    )
+    private List<User> members = new ArrayList<>();
+
+    public void addMember(User user) {
+        members.add(user);
+        user.getEvents().add(this);
+    }
+
+    public void deleteMember(User user) {
+        members.remove(user);
+        user.getEvents().add(this);
+    }
 
     public EventModel(String eventName, String eventType, Date eventStart, Date eventEnd, String location, String description) {
         this.eventName = eventName;
@@ -81,7 +97,7 @@ public class EventModel {
     }
 
     public Long getId() {
-        return id;
+        return event_id;
     }
 
     public String getEventName() {

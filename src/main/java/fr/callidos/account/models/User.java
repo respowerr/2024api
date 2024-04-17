@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
@@ -46,8 +50,14 @@ public class User {
     @Column(name = "banned", nullable = false)
     private boolean banned;
 
-    public User() {
+    @ManyToMany(mappedBy = "members")
+    private List<EventModel> events = new ArrayList<>();
+
+    public List<EventModel> getEvents(){
+        return events;
     }
+
+    public User() {}
 
     public User(String username, String email, String password, String name, String lastName, String phone) {
         this.username = username;
