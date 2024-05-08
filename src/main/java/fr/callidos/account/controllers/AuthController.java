@@ -98,6 +98,14 @@ public class AuthController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllusers(){
+        List<User> users = userRepository.findAll();
+        return ResponseEntity.ok(users);
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id){
         if (!userRepository.existsById(id)){
