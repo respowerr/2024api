@@ -1,5 +1,6 @@
 package fr.callidos.account.controllers;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import fr.callidos.account.models.User;
@@ -83,6 +84,17 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully, welcome to Helix !"));
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id){
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()){
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
