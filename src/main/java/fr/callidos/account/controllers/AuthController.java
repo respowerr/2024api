@@ -104,6 +104,40 @@ public class AuthController {
         return ResponseEntity.ok(users);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/{id}")
+    public ResponseEntity<?> putUserById(@PathVariable Long id, @RequestBody User userDetails){
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()){
+            User user = userOptional.get();
+            if (userDetails.getUsername() != null){
+                user.setUsername(userDetails.getUsername());
+            }
+            if (userDetails.getEmail() != null){
+                user.setEmail(userDetails.getEmail());
+            }
+            if (userDetails.getPassword() != null){
+                user.setPassword(userDetails.getPassword());
+            }
+            if (userDetails.getName() != null){
+                user.setName(userDetails.getName());
+            }
+            if (userDetails.getPhone() != null){
+                user.setPhone(userDetails.getPhone());
+            }
+            if (userDetails.getLastName() != null){
+                user.setLastName(userDetails.getLastName());
+            }
+            if (userDetails.getRole() != null){
+                user.setRole(userDetails.getRole());
+            }
+            final User putuser = userRepository.save(user);
+            return ResponseEntity.ok(putuser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
