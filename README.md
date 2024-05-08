@@ -28,7 +28,7 @@ The 4 original apis merged into a single one.
 #### Get all accounts
 
 ```http
-  GET /account
+  GET /account/all
 ```
 
 | Description                                                           |
