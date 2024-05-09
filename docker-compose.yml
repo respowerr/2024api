@@ -6,23 +6,29 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
-      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
-      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
-      - CALLIDOS_APP_JWT_SECRET=${CALLIDOS_APP_JWT_SECRET}
-      - CALLIDOS_APP_JWT_EXPIRATION_MS=${CALLIDOS_APP_JWT_EXPIRATION_MS}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      CALLIDOS_APP_JWT_SECRET: ${CALLIDOS_APP_JWT_SECRET}
+      CALLIDOS_APP_JWT_EXPIRATION_MS: ${CALLIDOS_APP_JWT_EXPIRATION_MS}
 
   db:
-    image: mysql:5.7
+    image: mysql:latest
     environment:
-      - DB_MYSQL_DATABASE=${MYSQL_DATABASE}
-      - DB_MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p${MYSQL_ROOT_PASSWORD}"]
+      timeout: 10s
+      retries: 5
+      interval: 5s
 
 volumes:
   db-data:
