@@ -33,7 +33,7 @@ public class TicketController {
                     return Map.of(
                             "id", message.getId(),
                             "sender", message.getSender(),
-                            "messageText", message.getMessageText() != null ? message.getMessageText() : ""
+                            "message", message.getMessage()
                     );
                 })
                 .collect(Collectors.toList());
