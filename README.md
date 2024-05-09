@@ -97,6 +97,26 @@ There are 4 roles in total in the API:
 |:--------------------------------------------------------------------|
 | **Required**. JWT Token with ROLE_USER <br/> Get all active events. |
 
+#### Join an event
+
+```http
+  POST /event/{id}/join
+```
+
+| Parameter | Type  | Description                                               |
+|:----------|:------|:----------------------------------------------------------|
+| `{id}`    | `int` | **Required**. JWT Token with ROLE_USER<br/>Join an event. |
+
+#### Leave an event
+
+```http
+  POST /event/{id}/quit
+```
+
+| Parameter | Type  | Description                                                |
+|:----------|:------|:-----------------------------------------------------------|
+| `{id}`    | `int` | **Required**. JWT Token with ROLE_USER<br/>Leave an event. |
+
 ```http
   POST /event
 ```
@@ -116,7 +136,7 @@ There are 4 roles in total in the API:
 |:----------|:---------|:------------------------------------------------------------------------------|
 | `{type}`  | `string` | **Required**. JWT Token with ROLE_USER<br/>Get all events with the same type. |
 
-#### Event selection
+#### Event selection (NOT WORKING FOR NOW)
 
 ```http
   GET /event/{id}
