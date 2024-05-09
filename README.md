@@ -4,9 +4,10 @@
 <h1 align="center" style="font-size: 40px">SUPER API</h1>
 <p align="center">API for Au temps donné, a final school project.</p>
 
-The 4 original apis merged into a single one.
+The 5 original apis merged into a single one.
 - `Truck API`
 - `Account API`
+- `Ticketing API`
 - `Event API`
 - `Warehouse API`
 
@@ -165,6 +166,67 @@ There are 4 roles in total in the API:
 | Parameter | Type  | Description                                                 |
 |:----------|:------|:------------------------------------------------------------|
 | `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Delete event. |
+
+
+## TICKETING - API
+
+#### Create a new ticket
+
+```http
+  POST /tickets
+```
+
+| Body                                                          | Description | JSON                                                                                                                                                            |
+|:--------------------------------------------------------------|:------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `sender`<br/>`receiver`<br/>`resolved`<br/>`title`<br/>`desc` | New ticket  | {<br/>"sender": "palpatine", <br/>"receiver": "vador", <br/>"resolved": "false", <br/>"title": "Rebels attack", <br/>"desc": "Rebels attack on Coruscant"<br/>} |
+
+#### Delete a ticket
+
+```http
+  DELETE /tickets/{ticket_id}
+```
+| Parameter     | Type  | Description                                                  |
+|:--------------|:------|:-------------------------------------------------------------|
+| `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Delete ticket. |
+
+
+#### Get all tickets
+
+```http
+  GET /tickets
+```
+| Description                                                                           |
+|:--------------------------------------------------------------------------------------|
+| **Required**. JWT Token with ROLE_ADMIN <br/> Show and list all not resolved tickets. |
+
+#### Show a ticket
+
+```http
+  GET /tickets/{ticket_id}
+```
+| Parameter     | Type  | Description                                                     |
+|:--------------|:------|:----------------------------------------------------------------|
+| `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_USER <br/> Show ticket by ID. |
+
+#### Send messages
+
+```http
+  POST /tickets/{ticket_id}/messages
+```
+| Parameter     | Type  | Description                                                                   | JSON                                                                        |
+|:--------------|:------|:------------------------------------------------------------------------------|:----------------------------------------------------------------------------|
+| `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_USER <br/> Write a message inside a ticket. | {<br/>"sender": "Yoda", <br/>"message": "may the force be with you !"<br/>} |
+
+#### Show all messages of a ticket
+
+```http
+  GET /tickets/{ticket_id}/messages
+```
+| Parameter     | Type  | Description                                                                 |
+|:--------------|:------|:----------------------------------------------------------------------------|
+| `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_USER <br/> Show all messages of a ticket. |
+
+
 
 ## TRUCK - API
 
