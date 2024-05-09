@@ -55,6 +55,10 @@ public class TicketModel {
         return ticket_id;
     }
 
+    public void setResolved(Boolean resolved) {
+        this.resolved = resolved;
+    }
+
     public String getSender() {
         return sender;
     }

@@ -5,6 +5,7 @@ import fr.callidos.account.models.TicketModel;
 import fr.callidos.account.repository.MessageRepository;
 import fr.callidos.account.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,17 @@ public class TicketController {
 
     @Autowired
     private MessageRepository messageRepository;
+
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PutMapping("/{ticketId}/resolve")
+    public ResponseEntity<?> resolveTicket(@PathVariable Long ticketId) {
+        TicketModel ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new RuntimeException("Ticket N°" + ticketId + " was not found."));
+        ticket.setResolved(true);
+        ticketRepository.save(ticket);
+        return ResponseEntity.ok().build();
+    }
 
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/{ticketId}/messages")
