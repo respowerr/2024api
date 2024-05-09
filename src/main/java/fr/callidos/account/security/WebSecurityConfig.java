@@ -62,6 +62,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/stock/**").permitAll()
                                 .requestMatchers("/event/**").permitAll()
                                 .requestMatchers("/camions/**").permitAll()
+                                .requestMatchers("/warehouse/**").permitAll()
                                 .anyRequest().authenticated()
                 );
 
