@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import fr.callidos.account.repository.UserRepository;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -48,12 +49,24 @@ public class EventController {
     public ResponseEntity<String> putEvent(@PathVariable Long event_id, @RequestBody EventModel eventDetails){
         EventModel event = eventRepository.findById(event_id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event " + event_id + " not found."));
-        event.setEventEnd(eventDetails.getEventEnd());
-        event.setEventName(eventDetails.getEventName());
-        event.setEventStart(eventDetails.getEventStart());
-        event.setEventType(eventDetails.getEventType());
-        event.setLocation(eventDetails.getLocation());
-        event.setDescription(eventDetails.getDescription());
+        if (eventDetails.getEventEnd() != null) {
+            event.setEventEnd(eventDetails.getEventEnd());
+        }
+        if (eventDetails.getEventName() != null) {
+            event.setEventName(eventDetails.getEventName());
+        }
+        if (eventDetails.getEventStart() != null) {
+            event.setEventStart(eventDetails.getEventStart());
+        }
+        if (eventDetails.getEventType() != null) {
+            event.setEventType(eventDetails.getEventType());
+        }
+        if (eventDetails.getLocation() != null) {
+            event.setLocation(eventDetails.getLocation());
+        }
+        if (eventDetails.getDescription() != null) {
+            event.setDescription(eventDetails.getDescription());
+        }
         eventRepository.save(event);
         return ResponseEntity.ok("Event " + event_id + " was modified successfully.");
     }
