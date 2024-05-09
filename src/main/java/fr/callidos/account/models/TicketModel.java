@@ -1,6 +1,9 @@
 package fr.callidos.account.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tickets")
@@ -18,23 +21,34 @@ public class TicketModel {
     @Column(name = "resolved")
     private Boolean resolved;
 
-    @Column(name = "message")
-    private String message;
+    @Column(name = "title")
+    private String title;
 
-    public void setSender(String sender) {
+    @Column(name = "description")
+    private String desc;
+
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<MessageModel> messages;
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public TicketModel() {}
+
+    public TicketModel(Long ticket_id, String sender, String receiver, Boolean resolved, String title, String desc, List<MessageModel> messages) {
+        this.ticket_id = ticket_id;
         this.sender = sender;
-    }
-
-    public void setReceiver(String receiver) {
         this.receiver = receiver;
-    }
-
-    public void setResolved(Boolean resolved) {
         this.resolved = resolved;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+        this.title = title;
+        this.desc = desc;
+        this.messages = messages;
     }
 
     public Long getTicket_id() {
@@ -53,7 +67,11 @@ public class TicketModel {
         return resolved;
     }
 
-    public String getMessage() {
-        return message;
+    public String getTitle() {
+        return title;
+    }
+
+    public List<MessageModel> getMessages() {
+        return messages;
     }
 }
