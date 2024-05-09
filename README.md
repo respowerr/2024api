@@ -33,9 +33,9 @@ There are 4 roles in total in the API:
   POST /account/register
 ```
 
-| Body                                                                                       | Description |
-|:-------------------------------------------------------------------------------------------|:------------|
-| `username`<br/>`password`<br/>`email`<br/>`phone`<br/>`name`<br/>`lastName`<br/>`location` | SignUp      |
+| Body                                                                                       | Description | JSON                                                                                                                                                                                                        |
+|:-------------------------------------------------------------------------------------------|:------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `username`<br/>`password`<br/>`email`<br/>`phone`<br/>`name`<br/>`lastName`<br/>`location` | SignUp      | {<br/>"username": "ben",<br/>"password": "@nakin###!",<br/>"email": "okenobi@jeditemple.com",<br/>"phone": "0123456789",<br/>"name": "obi-wan",<br/>"lastName": "Kenobi",<br/>"location": "Coruscant"<br/>} |
 
 #### Login
 
@@ -43,9 +43,9 @@ There are 4 roles in total in the API:
   POST /account/login
 ```
 
-| Body                      | Description |
-|:--------------------------|:------------|
-| `username`<br/>`password` | SignIn      |
+| Body                      | Description | JSON                                                        |
+|:--------------------------|:------------|:------------------------------------------------------------|
+| `username`<br/>`password` | SignIn      | {<br/>"username": "ben",<br/>"password": "@nakin###!"<br/>} |
 
 #### Get all accounts
 
@@ -160,9 +160,9 @@ There are 4 roles in total in the API:
   POST /camions
 ```
 
-| Body                                                   | Description                                                |
-|:-------------------------------------------------------|:-----------------------------------------------------------|
-| `plaqueImmatriculation`<br/>`capacite`<br/>`tourneeId` | **Required**. JWT Token with ROLE_ADMIN<br/> Create truck. |
+| Body                                                   | Description                                                | JSON                                                                                           |
+|:-------------------------------------------------------|:-----------------------------------------------------------|:-----------------------------------------------------------------------------------------------|
+| `plaqueImmatriculation`<br/>`capacite`<br/>`tourneeId` | **Required**. JWT Token with ROLE_ADMIN<br/> Create truck. | {<br/>"plaqueImmatriculation": "123456789",<br/>"capacite": "200", <br/>"tourneeId": "2"<br/>} |
 
 #### Truck selection
 
