@@ -1,6 +1,7 @@
 package fr.callidos.account.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "messages")
@@ -16,8 +17,9 @@ public class MessageModel {
     @Column(name = "sender")
     private String sender;
 
-    @Column(name = "message_text")
-    private String messageText;
+    @Column(name = "message")
+    @NotBlank
+    private String message;
 
     public Long getId() {
         return id;
@@ -39,20 +41,20 @@ public class MessageModel {
         this.sender = sender;
     }
 
-    public String getMessageText() {
-        return messageText;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMessageText(String messageText) {
-        this.messageText = messageText;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public MessageModel() {}
 
-    public MessageModel(Long id, TicketModel ticket, String sender, String messageText) { // Modification du constructeur pour inclure le texte du message
+    public MessageModel(Long id, TicketModel ticket, String sender, String message) {
         this.id = id;
         this.ticket = ticket;
         this.sender = sender;
-        this.messageText = messageText;
+        this.message = message;
     }
 }
