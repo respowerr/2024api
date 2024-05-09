@@ -110,7 +110,7 @@ There are 4 roles in total in the API:
 #### Leave an event
 
 ```http
-  POST /event/{id}/quit
+  DELETE /event/{id}/quit
 ```
 
 | Parameter | Type  | Description                                                |
