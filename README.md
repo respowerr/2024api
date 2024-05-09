@@ -5,7 +5,7 @@
 <p align="center">API for Au temps donné, a final school project.</p>
 
 The 5 original apis merged into a single one.
-- `Truck API`
+- `Vehicle API`
 - `Account API`
 - `Ticketing API`
 - `Event API`
@@ -235,53 +235,53 @@ There are 4 roles in total in the API:
 |:--------------|:------|:------------------------------------------------------------------------------------------|
 | `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Resolve a ticket by set "resolved" to true. |
 
-## TRUCK - API
+## VEHICLE - API
 
-#### List all trucks
+#### List all vehicles
 ```http
-  GET /camions
+  GET /vehicle
 ```
 
-| Description                                                   |
-|:--------------------------------------------------------------|
-| **Required**. JWT Token with ROLE_ADMIN <br/> Get all trucks. |
+| Description                                                     |
+|:----------------------------------------------------------------|
+| **Required**. JWT Token with ROLE_ADMIN <br/> Get all vehicles. |
 
-#### Create a truck
+#### Create a vehicle
 ```http
-  POST /camions
+  POST /vehicle
 ```
 
-| Body                                                   | Description                                                | JSON                                                                                           |
-|:-------------------------------------------------------|:-----------------------------------------------------------|:-----------------------------------------------------------------------------------------------|
-| `plaqueImmatriculation`<br/>`capacite`<br/>`tourneeId` | **Required**. JWT Token with ROLE_ADMIN<br/> Create truck. | {<br/>"plaqueImmatriculation": "123456789",<br/>"capacite": "200", <br/>"tourneeId": "2"<br/>} |
+| Body                                                            | Description                                                  | JSON                                                                                                                           |
+|:----------------------------------------------------------------|:-------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------|
+| `id_plate`<br/>`fret_capacity`<br/>`human_capacity`<br/>`model` | **Required**. JWT Token with ROLE_ADMIN<br/> Create vehicle. | {<br/>"id_plate": "123456789",<br/>"fret_capacity": "500", <br/>"human_capacity": "6", <br/>"model": "millennium falcon"<br/>} |
 
-#### Truck selection
-
-```http
-  GET /camions/{id}
-```
-
-| Parameter | Type  | Description                                                               |
-|:----------|:------|:--------------------------------------------------------------------------|
-| `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN<br/>Get all infos about an truck. |
-
+#### Vehicle selection
 
 ```http
-  PUT /camions/{id}
+  GET /vehicle/{id}
 ```
 
-| Parameter | Type  | Body                                                   | Description                                                                 |
-|:----------|:------|:-------------------------------------------------------|:----------------------------------------------------------------------------|
-| `{id}`    | `int` | `plaqueImmatriculation`<br/>`capacite`<br/>`tourneeId` | **Required**. JWT Token with ROLE_ADMIN<br/> Modify an truck information's. |
+| Parameter | Type  | Description                                                                |
+|:----------|:------|:---------------------------------------------------------------------------|
+| `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN<br/>Get all infos about a vehicle. |
 
 
 ```http
-  DELETE /camions/{id}
+  PUT /vehicle/{id}
 ```
 
-| Parameter | Type  | Description                                                 |
-|:----------|:------|:------------------------------------------------------------|
-| `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Delete truck. |
+| Parameter | Type  | Body                                                            | Description                                                                |
+|:----------|:------|:----------------------------------------------------------------|:---------------------------------------------------------------------------|
+| `{id}`    | `int` | `id_plate`<br/>`fret_capacity`<br/>`human_capacity`<br/>`model` | **Required**. JWT Token with ROLE_ADMIN<br/> Modify vehicle information's. |
+
+
+```http
+  DELETE /vehicle/{id}
+```
+
+| Parameter | Type  | Description                                                         |
+|:----------|:------|:--------------------------------------------------------------------|
+| `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Delete vehicle by id. |
 
 ## WAREHOUSE - API
 
