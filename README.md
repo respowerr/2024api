@@ -1,7 +1,8 @@
 
 ![Logo](https://i.ibb.co/1GGHbnw/Image1.png)
-# HELIX  - SUPER API
-API for Au temps donné, a final school project.
+
+<h1 align="center" style="font-size: 40px">SUPER API</h1>
+<p align="center">API for Au temps donné, a final school project.</p>
 
 The 4 original apis merged into a single one.
 - `Truck API`
