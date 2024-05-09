@@ -11,6 +11,10 @@ public class SignupRequest {
 
     @NotBlank
     @Size(max = 50)
+    private String location;
+
+    @NotBlank
+    @Size(max = 50)
     @Email
     private String email;
 
@@ -30,6 +34,13 @@ public class SignupRequest {
     @Size(max = 10)
     private String phone;
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public String getPhone() {
         return phone;

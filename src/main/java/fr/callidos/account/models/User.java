@@ -24,6 +24,10 @@ public class User {
     private String username;
 
     @NotBlank
+    @Size(max = 50)
+    private String location;
+
+    @NotBlank
     @Size(max = 20)
     private String name;
 
@@ -59,13 +63,22 @@ public class User {
 
     public User() {}
 
-    public User(String username, String email, String password, String name, String lastName, String phone) {
+    public User(String username, String email, String password, String name, String lastName, String phone, String location) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.name = name;
         this.lastName = lastName;
         this.phone = phone;
+        this.location = location;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public boolean isBanned() {

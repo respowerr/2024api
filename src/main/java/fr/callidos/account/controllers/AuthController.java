@@ -76,7 +76,7 @@ public class AuthController {
 
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()), signUpRequest.getName(), signUpRequest.getLastName(), signUpRequest.getPhone());
+                encoder.encode(signUpRequest.getPassword()), signUpRequest.getName(), signUpRequest.getLastName(), signUpRequest.getPhone(), signUpRequest.getLocation());
         user.setName(signUpRequest.getName());
         user.setLastName(signUpRequest.getLastName());
         user.setRole("ROLE_USER");
