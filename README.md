@@ -1,7 +1,28 @@
 
 ![Logo](https://i.ibb.co/1GGHbnw/Image1.png)
 # HELIX  - SUPER API
+API for Au temps donné, a final school project.
+
 The 4 original apis merged into a single one.
+- `Truck API`
+- `Account API`
+- `Event API`
+- `Warehouse API`
+
+## Installation & run
+
+```bash
+  apt-get install docker && apt-get install docker-compose
+  git clone https://github.com/respowerr/2024api
+  cd 2024api
+  docker compose up --build
+```
+
+There are 4 roles in total in the API:
+- `ROLE_BENEVOLE`
+- `ROLE_BENEFICIARE`
+- `ROLE_PARTENAIRE`
+- `ROLE_ADMIN`
 
 ## ACCOUNT - API
 
@@ -223,4 +244,8 @@ The 4 original apis merged into a single one.
 
 
 
-© 2024 CALLIDOS GROUP
+## Authors
+
+- [@Respowerr](https://www.github.com/respowerr)
+- [@SnikiEP](https://www.github.com/snikiep)
+- [@Amlezia](https://www.github.com/amlezia)
