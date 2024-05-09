@@ -66,6 +66,23 @@ public class EventModel {
         this.location = location;
         this.description = description;
     }
+
+    public Long getEvent_id() {
+        return event_id;
+    }
+
+    public void setEvent_id(Long event_id) {
+        this.event_id = event_id;
+    }
+
+    public void setMembers(List<User> members) {
+        this.members = members;
+    }
+
+    public List<User> getMembers() {
+        return members;
+    }
+
     public EventModel() {}
 
     public String getDescription() {
