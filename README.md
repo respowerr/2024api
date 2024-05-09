@@ -229,11 +229,11 @@ There are 4 roles in total in the API:
 #### Resolve a ticket
 
 ```http
-  PUT /tickets/{ticked_id}/resolve
+  PUT /tickets/{ticket_id}/resolve
 ```
-| Description                                                                             |
-|:----------------------------------------------------------------------------------------|
-| **Required**. JWT Token with ROLE_ADMIN <br/> Resolve a ticket by set resolved to true. |
+| Parameter     | Type  | Description                                                                               |
+|:--------------|:------|:------------------------------------------------------------------------------------------|
+| `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Resolve a ticket by set "resolved" to true. |
 
 ## TRUCK - API
 
