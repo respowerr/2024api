@@ -3,7 +3,6 @@ package fr.callidos.account.controllers;
 import fr.callidos.account.models.EventModel;
 import fr.callidos.account.models.User;
 import fr.callidos.account.repository.EventRepository;
-import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +19,8 @@ import java.util.Optional;
 public class EventController {
     @Autowired
     private EventRepository eventRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
@@ -77,15 +78,37 @@ public class EventController {
         eventRepository.deleteById(event_id);
         return ResponseEntity.ok("Event " + event_id + " was deleted sucessfully.");
     }
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @PostMapping("/{event_id}/join")
-    public ResponseEntity<String> joinEvent(@PathVariable Long event_id, @RequestBody Long id){
+    public ResponseEntity<String> joinEvent(@PathVariable Long event_id, @RequestBody User user){
         EventModel event = eventRepository.findById(event_id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event " + event_id + " not found."));
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id " + id + " not found."));
-        event.addMember(user);
-        eventRepository.save(event);
-        return ResponseEntity.ok("User N°" + id + " joined event N°" + event_id + ".");
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event " + event_id + " was not found."));
+        Optional<User> existingUserOptional = userRepository.findByUsername(user.getUsername());
+        if(existingUserOptional.isPresent()) {
+            User existingUser = existingUserOptional.get();
+            event.addMember(existingUser);
+            eventRepository.save(event);
+            return ResponseEntity.ok("User " + user.getUsername() + " joined event " + event_id + " successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + user.getUsername() + " was not found.");
+        }
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @DeleteMapping("/{event_id}/quit")
+    public ResponseEntity<String> quitEvent(@PathVariable Long event_id, @RequestBody User user){
+        EventModel event = eventRepository.findById(event_id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event " + event_id + " was not found."));
+        Optional<User> existingUserOptional = userRepository.findByUsername(user.getUsername());
+        if(existingUserOptional.isPresent()) {
+            User existingUser = existingUserOptional.get();
+            event.deleteMember(existingUser);
+            eventRepository.save(event);
+            return ResponseEntity.ok("User " + user.getUsername() + " quit event " + event_id + " successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + user.getUsername() + " was not found.");
+        }
+    }
+
 }
