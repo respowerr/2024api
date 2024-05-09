@@ -226,7 +226,14 @@ There are 4 roles in total in the API:
 |:--------------|:------|:----------------------------------------------------------------------------|
 | `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_USER <br/> Show all messages of a ticket. |
 
+#### Resolve a ticket
 
+```http
+  PUT /tickets/{ticked_id}/resolve
+```
+| Description                                                                             |
+|:----------------------------------------------------------------------------------------|
+| **Required**. JWT Token with ROLE_ADMIN <br/> Resolve a ticket by set resolved to true. |
 
 ## TRUCK - API
 
