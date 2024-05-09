@@ -102,9 +102,9 @@ There are 4 roles in total in the API:
 ```
 #### Create an event
 
-| Body                                                                                                     | Description                                                                |
-|:---------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------|
-| `eventName`<br/>`eventType`<br/>`eventStart`<br/>`eventEnd`<br/>`users`<br/>`location`<br/>`description` | **Required**. JWT Token with ROLE_ADMIN<br/> Create an event.              |
+| Body                                                                                                       | Description                                                   | JSON                                                                                                                                                                                                                                                                             |
+|:-----------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `eventName`<br/>`eventType`<br/>`eventStart`<br/>`eventEnd`<br/>`members`<br/>`location`<br/>`description` | **Required**. JWT Token with ROLE_ADMIN<br/> Create an event. | {<br/>"eventName": "Starfleet com",<br/>"eventType": "Conference",<br/>"eventStart": "2024-05-09", <br/>"eventEnd": "2024-05-09", <br/>"location": "USS-1701", <br/>"description" : "Spock speech", <br/>"members": [<br/>{<br/>"id": 2<br/>}<br/>]<br/>}                        |
 
 #### Filter by type
 
