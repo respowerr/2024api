@@ -12,6 +12,8 @@ import org.springframework.web.server.ResponseStatusException;
 import fr.callidos.account.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -82,6 +84,13 @@ public class EventController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @PostMapping("/{event_id}/join/{username}")
     public ResponseEntity<String> joinEvent(@PathVariable Long event_id, @PathVariable String username){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loggedInUsername = authentication.getName();
+
+        if(!loggedInUsername.equals(username)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You shall not pass - Gandalf.");
+        }
+
         EventModel event = eventRepository.findById(event_id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event " + event_id + " was not found."));
         Optional<User> existingUserOptional = userRepository.findByUsername(username);
@@ -97,18 +106,25 @@ public class EventController {
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-    @DeleteMapping("/{event_id}/quit")
-    public ResponseEntity<String> quitEvent(@PathVariable Long event_id, @RequestBody User user){
+    @DeleteMapping("/{event_id}/quit/{username}")
+    public ResponseEntity<String> quiEvent(@PathVariable Long event_id, @PathVariable String username){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loggedInUsername = authentication.getName();
+
+        if(!loggedInUsername.equals(username)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You shall not pass - Gandalf.");
+        }
+
         EventModel event = eventRepository.findById(event_id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event " + event_id + " was not found."));
-        Optional<User> existingUserOptional = userRepository.findByUsername(user.getUsername());
+        Optional<User> existingUserOptional = userRepository.findByUsername(username);
         if(existingUserOptional.isPresent()) {
             User existingUser = existingUserOptional.get();
             event.deleteMember(existingUser);
             eventRepository.save(event);
-            return ResponseEntity.ok("User " + user.getUsername() + " quit event " + event_id + " successfully.");
+            return ResponseEntity.ok("User " + username + " quit event " + event_id + " successfully.");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + user.getUsername() + " was not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + username + " was not found.");
         }
     }
 
