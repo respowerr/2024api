@@ -33,4 +33,14 @@ public class WarehouseController {
         return ResponseEntity.ok(warehouse);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PutMapping("/{warehouse_id}")
+    public ResponseEntity<String> putCurrentStock(@PathVariable Long warehouse_id, @RequestBody WarehouseModel warehouseDetails){
+        WarehouseModel currentstock = warehouseRepository.findById(warehouse_id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Warehouse " + warehouse_id + " was not found."));
+        currentstock.setCurrent_stock(warehouseDetails.getCurrent_stock());
+        warehouseRepository.save(currentstock);
+        return ResponseEntity.ok("Current stock was successfully updated.");
+    }
+
 }

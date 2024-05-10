@@ -1,10 +1,13 @@
 package fr.callidos.account.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+
 import java.util.List;
 
 @Entity
-@Table(name = "warehouse")
+@Table(name = "warehouses")
 public class WarehouseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,33 +16,33 @@ public class WarehouseModel {
     @Column(name = "location")
     private String location;
 
-    @Column(name = "capacity")
-    private int capacity;
+    @Column(name = "total_capacity") // En rack
+    @Min(0)
+    private int rack_capacity;
 
-    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
-    private List<ItemQuantity> items;
+    @Column(name = "utilization") // Pourcentage de capacité utilisée
+    @Min(0)
+    private double utilization;
 
-    public WarehouseModel(Long warehouse_id, String location, int capacity, List<ItemQuantity> items) {
-        this.warehouse_id = warehouse_id;
-        this.location = location;
-        this.capacity = capacity;
-        this.items = items;
-    }
-
-    public void setWarehouse_id(Long warehouse_id) {
-        this.warehouse_id = warehouse_id;
-    }
+    @Column(name = "current_stock") // En rack, MAX la total_capacity, MIN 0
+    @Min(0)
+    private int current_stock;
 
     public void setLocation(String location) {
         this.location = location;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public void setRack_capacity(int rack_capacity) {
+        this.rack_capacity = rack_capacity;
     }
 
-    public void setItems(List<ItemQuantity> items) {
-        this.items = items;
+    public void setUtilization(double utilization) {
+        this.utilization = utilization;
+    }
+
+    public void setCurrent_stock(int current_stock) {
+        this.current_stock = current_stock;
+        calculUtilization();
     }
 
     public Long getWarehouse_id() {
@@ -50,73 +53,33 @@ public class WarehouseModel {
         return location;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public int getRack_capacity() {
+        return rack_capacity;
     }
 
-    public List<ItemQuantity> getItems() {
-        return items;
+    public double getUtilization() {
+        return utilization;
+    }
+
+    public int getCurrent_stock() {
+        return current_stock;
+    }
+
+    public WarehouseModel(Long warehouse_id, String location, int rack_capacity, int current_stock) {
+        this.warehouse_id = warehouse_id;
+        this.location = location;
+        this.rack_capacity = rack_capacity;
+        this.current_stock = current_stock;
+        calculUtilization();
     }
 
     public WarehouseModel() {}
 
-    @Entity
-    @Table(name = "item_quantity")
-    public static class ItemQuantity {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        Long id;
-
-        @Column(name = "item_name")
-        private String itemName;
-
-        @Column(name = "count")
-        private int count;
-
-        @ManyToOne
-        @JoinColumn(name = "warehouse_id")
-        private WarehouseModel warehouse;
-
-        public ItemQuantity(Long id, String itemName, int count, WarehouseModel warehouse) {
-            this.id = id;
-            this.itemName = itemName;
-            this.count = count;
-            this.warehouse = warehouse;
+    private void calculUtilization(){
+        if (rack_capacity != 0){
+            utilization = ((double) current_stock / rack_capacity) * 100;
+        } else {
+            utilization = 0.0;
         }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-        public void setItemName(String itemName) {
-            this.itemName = itemName;
-        }
-
-        public void setCount(int count) {
-            this.count = count;
-        }
-
-        public void setWarehouse(WarehouseModel warehouse) {
-            this.warehouse = warehouse;
-        }
-
-        public Long getId() {
-            return id;
-        }
-
-        public String getItemName() {
-            return itemName;
-        }
-
-        public int getCount() {
-            return count;
-        }
-
-        public WarehouseModel getWarehouse() {
-            return warehouse;
-        }
-
-        public ItemQuantity() {}
-
     }
 }
