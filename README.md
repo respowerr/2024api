@@ -101,22 +101,22 @@ There are 4 roles in total in the API:
 #### Join an event
 
 ```http
-  POST /event/{id}/join
+  POST /event/{id}/join/{username}
 ```
 
-| Parameter | Type  | Description                                               |
-|:----------|:------|:----------------------------------------------------------|
-| `{id}`    | `int` | **Required**. JWT Token with ROLE_USER<br/>Join an event. |
+| Parameter               | Type               | Description                                                                                          |
+|:------------------------|:-------------------|:-----------------------------------------------------------------------------------------------------|
+| `{id}`<br/>`{username}` | `int`<br/>`string` | **Required**. JWT Token with ROLE_USER<br/>Join an event AND username matching with the JWT session. |
 
 #### Leave an event
 
 ```http
-  DELETE /event/{id}/quit
+  DELETE /event/{id}/quit/{username}
 ```
 
-| Parameter | Type  | Description                                                |
-|:----------|:------|:-----------------------------------------------------------|
-| `{id}`    | `int` | **Required**. JWT Token with ROLE_USER<br/>Leave an event. |
+| Parameter               | Type               | Description                                                                                           |
+|:------------------------|:-------------------|:------------------------------------------------------------------------------------------------------|
+| `{id}`<br/>`{username}` | `int`<br/>`string` | **Required**. JWT Token with ROLE_USER<br/>Leave an event AND username matching with the JWT session. |
 
 #### Create an event
 
@@ -284,7 +284,10 @@ There are 4 roles in total in the API:
 | `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Delete vehicle by id. |
 
 ## WAREHOUSE - API
-### Saint-Quentin and Laon warehouses
+- Saint-Quentin : Total capacity = 90 racks
+- Laon : Total capacity = 59 racks
+- **1 rack = 120 pallets && 1 pallet = 4 cartons**
+
 #### List all warehouses with infos
 
 ```http
