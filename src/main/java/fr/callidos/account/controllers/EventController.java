@@ -80,20 +80,21 @@ public class EventController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-    @PostMapping("/{event_id}/join")
-    public ResponseEntity<String> joinEvent(@PathVariable Long event_id, @RequestBody User user){
+    @PostMapping("/{event_id}/join/{username}")
+    public ResponseEntity<String> joinEvent(@PathVariable Long event_id, @PathVariable String username){
         EventModel event = eventRepository.findById(event_id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event " + event_id + " was not found."));
-        Optional<User> existingUserOptional = userRepository.findByUsername(user.getUsername());
+        Optional<User> existingUserOptional = userRepository.findByUsername(username);
         if(existingUserOptional.isPresent()) {
             User existingUser = existingUserOptional.get();
             event.addMember(existingUser);
             eventRepository.save(event);
-            return ResponseEntity.ok("User " + user.getUsername() + " joined event " + event_id + " successfully.");
+            return ResponseEntity.ok("User " + username + " joined event " + event_id + " successfully.");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + user.getUsername() + " was not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + username + " was not found.");
         }
     }
+
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @DeleteMapping("/{event_id}/quit")
