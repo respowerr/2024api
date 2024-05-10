@@ -139,7 +139,7 @@ There are 4 roles in total in the API:
 |:----------|:---------|:------------------------------------------------------------------------------|
 | `{type}`  | `string` | **Required**. JWT Token with ROLE_USER<br/>Get all events with the same type. |
 
-#### Event selection (NOT WORKING FOR NOW)
+#### Event selection
 
 ```http
   GET /event/{id}
@@ -284,7 +284,7 @@ There are 4 roles in total in the API:
 | `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Delete vehicle by id. |
 
 ## WAREHOUSE - API
-
+### Saint-Quentin and Laon warehouses
 #### List all warehouses with infos
 
 ```http
@@ -297,22 +297,33 @@ There are 4 roles in total in the API:
 #### Show a warehouse by id
 
 ```http
-  GET /warehouse/{location}
+  GET /warehouse/{warehouse_id}
 ```
 
-| Parameter    | Type     | Description                                                                       | Response                                                                              |
-|:-------------|:---------|:----------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------|
-| `{location}` | `string` | **Required**. JWT Token with ROLE_USER<br/>Get and show all infos of a warehouse. | `warehouse_id`<br/>`location`<br/>`capacity`<br/>`itemName`<br/>`count`<br/>`item_id` |
+| Parameter        | Type  | Description                                                                       | Response                                                                                        |
+|:-----------------|:------|:----------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------|
+| `{warehouse_id}` | `int` | **Required**. JWT Token with ROLE_USER<br/>Get and show all infos of a warehouse. | `warehouse_id`<br/>`location`<br/>`rack_capacity`<br/>`current_stock`<br/>`utilization`         |
+
+
+#### Modify a warehouse current stock.
+
+```http
+  PUT /warehouse/{warehouse_id}
+```
+
+| Parameter        | Type  | Description                                                                  | Response                                                                                        |
+|:-----------------|:------|:-----------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------|
+| `{warehouse_id}` | `int` | **Required**. JWT Token with ROLE_USER<br/>Modify the stock of an warehouse. | `warehouse_id`<br/>`location`<br/>`rack_capacity`<br/>`current_stock`<br/>`utilization`         |
 
 #### Add items 
 
 ```http
-  POST /warehouse/{location}
+  POST /warehouse/{warehouse_id}
 ```
 
-| Parameter    | Type     | Body                   |                                                                             
-|:-------------|:---------|:-----------------------|
-| `{location}` | `string` | `itemName`<br/>`count` |
+| Parameter        | Type  | Body                   |                                                                             
+|:-----------------|:------|:-----------------------|
+| `{warehouse_id}` | `int` | `itemName`<br/>`count` |
 
 #### Modify items name or count
 
