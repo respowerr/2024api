@@ -93,7 +93,6 @@ public class TicketController {
         String jwtusername = authentication.getName();
 
         newTicket.setSender(jwtusername);
-        newTicket.setReceiver(ticket.getReceiver());
         newTicket.setTitle(ticket.getTitle());
         newTicket.setResolved(false);
         newTicket.setDesc(ticket.getDesc());
