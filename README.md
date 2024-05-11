@@ -176,9 +176,9 @@ There are 4 roles in total in the API:
   POST /tickets
 ```
 
-| Body                                                          | Description | JSON                                                                                                                                                            |
-|:--------------------------------------------------------------|:------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `sender`<br/>`receiver`<br/>`resolved`<br/>`title`<br/>`desc` | New ticket  | {<br/>"sender": "palpatine", <br/>"receiver": "vador", <br/>"resolved": "false", <br/>"title": "Rebels attack", <br/>"desc": "Rebels attack on Coruscant"<br/>} |
+| Body                              | Description                                                        | JSON                                                                                                      |
+|:----------------------------------|:-------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------|
+| `receiver`<br/>`title`<br/>`desc` | New ticket with JWT username session. Receiver is only ROLE_ADMIN. | {<br/>"receiver": "vador", <br/>"title": "Rebels attack", <br/>"desc": "Rebels attack on Coruscant"<br/>} |
 
 #### Delete a ticket
 
@@ -213,9 +213,9 @@ There are 4 roles in total in the API:
 ```http
   POST /tickets/{ticket_id}/messages
 ```
-| Parameter     | Type  | Description                                                                   | JSON                                                                        |
-|:--------------|:------|:------------------------------------------------------------------------------|:----------------------------------------------------------------------------|
-| `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_USER <br/> Write a message inside a ticket. | {<br/>"sender": "Yoda", <br/>"message": "may the force be with you !"<br/>} |
+| Parameter     | Type  | Description                                                                   | JSON                                                 |
+|:--------------|:------|:------------------------------------------------------------------------------|:-----------------------------------------------------|
+| `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_USER <br/> Write a message inside a ticket. | {<br/>"message": "may the force be with you !"<br/>} |
 
 #### Show all messages of a ticket
 
@@ -231,9 +231,9 @@ There are 4 roles in total in the API:
 ```http
   PUT /tickets/{ticket_id}/resolve
 ```
-| Parameter     | Type  | Description                                                                               |
-|:--------------|:------|:------------------------------------------------------------------------------------------|
-| `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Resolve a ticket by set "resolved" to true. |
+| Parameter     | Type  | Description                                                                                                                |
+|:--------------|:------|:---------------------------------------------------------------------------------------------------------------------------|
+| `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_ADMIN + Be the receiver of the ticket. <br/> Resolve a ticket by set "resolved" to true. |
 
 ## VEHICLE - API
 
