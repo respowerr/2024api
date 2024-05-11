@@ -11,6 +11,7 @@ import fr.callidos.account.payload.response.MessageResponse;
 import fr.callidos.account.repository.UserRepository;
 import fr.callidos.account.security.jwt.JwtUtils;
 import fr.callidos.account.security.services.UserDetailsImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class AuthController {
 
     @Autowired
     JwtUtils jwtUtils;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -74,9 +78,41 @@ public class AuthController {
                     .body(new MessageResponse("Email is already use."));
         }
 
+        if (!signUpRequest.getSex().equals("M") && !signUpRequest.getSex().equals("F")) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Invalid value, use M or F."));
+        }
+
+        if (signUpRequest.getPassword().length() < 8 || signUpRequest.getPassword().length() > 50) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Password must be at least 8 characters long or 50 max."));
+        }
+
+        if (signUpRequest.getPhone().length() > 10) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Invalid phone number."));
+        }
+
+        if (signUpRequest.getLastName().length() > 30 || signUpRequest.getLastName().length() < 3) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Min of 3 chars and 30 max for lastName."));
+        }
+
+        if (signUpRequest.getName().length() > 20 || signUpRequest.getName().length() < 3) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Min of 3 chars and 20 max for the name."));
+        }
+
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()), signUpRequest.getName(), signUpRequest.getLastName(), signUpRequest.getPhone(), signUpRequest.getLocation());
+                encoder.encode(signUpRequest.getPassword()), signUpRequest.getName(), signUpRequest.getLastName(), signUpRequest.getPhone(), signUpRequest.getLocation(), signUpRequest.getSex());
+        String clientIp = request.getRemoteAddr();
+        user.setRegister_ip(clientIp);
         user.setName(signUpRequest.getName());
         user.setLastName(signUpRequest.getLastName());
         user.setRole("ROLE_USER");

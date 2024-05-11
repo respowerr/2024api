@@ -54,6 +54,15 @@ public class User {
     @Column(name = "banned", nullable = false)
     private boolean banned;
 
+    @Column(name = "sex")
+    private String sex;
+
+    @Column(name = "login_ip")
+    private String login_ip;
+
+    @Column(name = "register_ip")
+    private String register_ip;
+
     @ManyToMany(mappedBy = "members")
     private List<EventModel> events = new ArrayList<>();
 
@@ -63,7 +72,7 @@ public class User {
 
     public User() {}
 
-    public User(String username, String email, String password, String name, String lastName, String phone, String location) {
+    public User(String username, String email, String password, String name, String lastName, String phone, String location, String sex) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -71,6 +80,31 @@ public class User {
         this.lastName = lastName;
         this.phone = phone;
         this.location = location;
+        this.sex = sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public void setLogin_ip(String login_ip) {
+        this.login_ip = login_ip;
+    }
+
+    public void setRegister_ip(String register_ip) {
+        this.register_ip = register_ip;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public String getLogin_ip() {
+        return login_ip;
+    }
+
+    public String getRegister_ip() {
+        return register_ip;
     }
 
     public String getLocation() {

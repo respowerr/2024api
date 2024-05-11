@@ -34,6 +34,41 @@ public class SignupRequest {
     @Size(max = 10)
     private String phone;
 
+    @NotBlank
+    @Size(max = 1)
+    private String sex;
+
+    @Size(max = 100)
+    private String login_ip;
+
+    @Size(max = 100)
+    private String register_ip;
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+
+    public void setLogin_ip(String login_ip) {
+        this.login_ip = login_ip;
+    }
+
+    public void setRegister_ip(String register_ip) {
+        this.register_ip = register_ip;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public String getLogin_ip() {
+        return login_ip;
+    }
+
+    public String getRegister_ip() {
+        return register_ip;
+    }
+
     public String getLocation() {
         return location;
     }
