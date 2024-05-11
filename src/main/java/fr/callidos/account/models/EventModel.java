@@ -40,6 +40,12 @@ public class EventModel {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "creator")
+    private String creator;
+
+    @Column(name = "accepted")
+    private Boolean accepted;
+
     @ManyToMany
     @JoinTable(
             name = "event_members",
@@ -65,6 +71,22 @@ public class EventModel {
         this.eventEnd = eventEnd;
         this.location = location;
         this.description = description;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        this.accepted = accepted;
+    }
+
+    public Boolean getAccepted() {
+        return accepted;
     }
 
     public Long getEvent_id() {

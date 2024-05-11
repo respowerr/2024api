@@ -26,9 +26,22 @@ public class EventController {
     private UserRepository userRepository;
 
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PostMapping("/request")
+    public ResponseEntity<String> newRequest(@RequestBody EventModel event) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String jwtusername = authentication.getName();
+
+        event.setCreator(jwtusername);
+        event.setAccepted(false);
+        eventRepository.save(event);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("The request to create your event has been registered.");
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<List<EventModel>> getAllEvents(){
-        List<EventModel> events = eventRepository.findAll();
+        List<EventModel> events = eventRepository.findByAcceptedTrue();
         return ResponseEntity.ok(events);
     }
 
@@ -43,6 +56,11 @@ public class EventController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<String> createEvent(@RequestBody EventModel event){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String jwtusername = authentication.getName();
+
+        event.setCreator(jwtusername);
+        event.setAccepted(true);
         eventRepository.save(event);
         return ResponseEntity.status(HttpStatus.CREATED).body("Event created with success.");
     }
