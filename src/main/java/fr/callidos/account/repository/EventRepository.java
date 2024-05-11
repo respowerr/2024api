@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<EventModel, Long> {
     List<EventModel> findByAcceptedTrue();
+    List<EventModel> findByAcceptedFalse();
 
 }
