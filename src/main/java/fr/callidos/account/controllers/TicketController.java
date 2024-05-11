@@ -5,8 +5,11 @@ import fr.callidos.account.models.TicketModel;
 import fr.callidos.account.repository.MessageRepository;
 import fr.callidos.account.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,10 +58,18 @@ public class TicketController {
     @PostMapping("/{ticketId}/messages")
     public MessageModel addMessageToTicket(@PathVariable Long ticketId,
                                            @RequestBody MessageModel message) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String jwtusername = authentication.getName();
+        MessageModel newMessage = new MessageModel();
+
         TicketModel ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new RuntimeException("Ticket not found with id " + ticketId));
-        message.setTicket(ticket);
-        return messageRepository.save(message);
+                .orElseThrow(() -> new RuntimeException("Ticket N°" + ticketId + " not found."));
+
+        newMessage.setSender(jwtusername);
+        newMessage.setMessage(message.getMessage());
+        newMessage.setTicket(ticket);
+
+        return messageRepository.save(newMessage);
     }
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping
@@ -68,7 +79,16 @@ public class TicketController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PostMapping
     public TicketModel newTicket(@RequestBody TicketModel ticket){
-        return ticketRepository.save(ticket);
+        TicketModel newTicket = new TicketModel();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String jwtusername = authentication.getName();
+
+        newTicket.setSender(jwtusername);
+        newTicket.setReceiver(ticket.getReceiver());
+        newTicket.setTitle(ticket.getTitle());
+        newTicket.setResolved(false);
+        newTicket.setDesc(ticket.getDesc());
+        return ticketRepository.save(newTicket);
     }
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")

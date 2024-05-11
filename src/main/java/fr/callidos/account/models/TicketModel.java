@@ -51,9 +51,19 @@ public class TicketModel {
         this.messages = messages;
     }
 
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public Long getTicket_id() {
         return ticket_id;
     }
+
+    public void setSender(String sender){this.sender = sender;}
 
     public void setResolved(Boolean resolved) {
         this.resolved = resolved;
