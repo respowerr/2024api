@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -62,6 +63,11 @@ public class AuthController {
 
         String clientIp = request.getRemoteAddr();
         User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
+
+        if (user.isBanned()){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Banned account.");
+        }
+
         user.setLogin_ip(clientIp);
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris"));
         user.setLast_login(new Date());
