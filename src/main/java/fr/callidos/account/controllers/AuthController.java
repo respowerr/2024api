@@ -122,6 +122,8 @@ public class AuthController {
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()), signUpRequest.getName(), signUpRequest.getLastName(), signUpRequest.getPhone(), signUpRequest.getLocation(), signUpRequest.getSex());
         String clientIp = request.getRemoteAddr();
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris"));
+        user.setRegister_date(new Date());
         user.setRegister_ip(clientIp);
         user.setName(signUpRequest.getName());
         user.setLastName(signUpRequest.getLastName());
