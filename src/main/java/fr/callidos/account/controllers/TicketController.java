@@ -13,6 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -41,6 +44,7 @@ public class TicketController {
     public ResponseEntity<?> resolveTicket(@PathVariable Long ticketId) {
         TicketModel ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new RuntimeException("Ticket N°" + ticketId + " was not found."));
+
         ticket.setResolved(true);
         ticketRepository.save(ticket);
         return ResponseEntity.ok().build();
@@ -52,12 +56,15 @@ public class TicketController {
         TicketModel ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new RuntimeException("Ticket N°" + ticketId + " was not found."));
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
         return ticket.getMessages().stream()
                 .map(message -> {
                     return Map.of(
                             "id", message.getId(),
                             "sender", message.getSender(),
-                            "message", message.getMessage()
+                            "message", message.getMessage(),
+                            "date", dateFormat.format(message.getDate())
                     );
                 })
                 .collect(Collectors.toList());
@@ -66,7 +73,7 @@ public class TicketController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PostMapping("/{ticketId}/messages")
     public MessageModel addMessageToTicket(@PathVariable Long ticketId,
-                                           @RequestBody MessageModel message) {
+                                           @RequestBody MessageModel message) throws ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String jwtusername = authentication.getName();
         MessageModel newMessage = new MessageModel();
@@ -77,6 +84,9 @@ public class TicketController {
         newMessage.setSender(jwtusername);
         newMessage.setMessage(message.getMessage());
         newMessage.setTicket(ticket);
+        newMessage.setDate(new Date());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        newMessage.setDate(dateFormat.parse(dateFormat.format(new Date())));
 
         return messageRepository.save(newMessage);
     }

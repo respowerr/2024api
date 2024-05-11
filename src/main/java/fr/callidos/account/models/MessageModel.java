@@ -3,6 +3,11 @@ package fr.callidos.account.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import javax.xml.crypto.Data;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Entity
 @Table(name = "messages")
 public class MessageModel {
@@ -21,8 +26,21 @@ public class MessageModel {
     @NotBlank
     private String message;
 
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
+
+
+    public Date getDate() {
+        return date;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public TicketModel getTicket() {
@@ -51,10 +69,16 @@ public class MessageModel {
 
     public MessageModel() {}
 
-    public MessageModel(Long id, TicketModel ticket, String sender, String message) {
+    public String getFormattedDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return dateFormat.format(date);
+    }
+
+    public MessageModel(Long id, TicketModel ticket, String sender, String message, Date date) {
         this.id = id;
         this.ticket = ticket;
         this.sender = sender;
         this.message = message;
+        this.date = date;
     }
 }
