@@ -101,22 +101,22 @@ There are 4 roles in total in the API:
 #### Join an event
 
 ```http
-  POST /event/{id}/join/{username}
+  POST /event/{id}/join
 ```
 
-| Parameter               | Type               | Description                                                                                          |
-|:------------------------|:-------------------|:-----------------------------------------------------------------------------------------------------|
-| `{id}`<br/>`{username}` | `int`<br/>`string` | **Required**. JWT Token with ROLE_USER<br/>Join an event AND username matching with the JWT session. |
+| Parameter | Type  | Description                                                                                        |
+|:----------|:------|:---------------------------------------------------------------------------------------------------|
+| `{id}`    | `int` | **Required**. JWT Token with ROLE_USER<br/>Join an event.                                          |
 
 #### Leave an event
 
 ```http
-  DELETE /event/{id}/quit/{username}
+  DELETE /event/{id}/quit
 ```
 
-| Parameter               | Type               | Description                                                                                           |
-|:------------------------|:-------------------|:------------------------------------------------------------------------------------------------------|
-| `{id}`<br/>`{username}` | `int`<br/>`string` | **Required**. JWT Token with ROLE_USER<br/>Leave an event AND username matching with the JWT session. |
+| Parameter | Type       | Description                                                                                          |
+|:----------|:-----------|:-----------------------------------------------------------------------------------------------------|
+| `{id}`    | `int`<br/> | **Required**. JWT Token with ROLE_USER<br/>Leave an event.                                           |
 
 #### Create an event
 
@@ -129,7 +129,7 @@ There are 4 roles in total in the API:
 |:-----------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `eventName`<br/>`eventType`<br/>`eventStart`<br/>`eventEnd`<br/>`members`<br/>`location`<br/>`description` | **Required**. JWT Token with ROLE_ADMIN<br/> Create an event. | {<br/>"eventName": "Starfleet com",<br/>"eventType": "Conference",<br/>"eventStart": "2024-05-09", <br/>"eventEnd": "2024-05-09", <br/>"location": "USS-1701", <br/>"description" : "Spock speech", <br/>"members": [<br/>{<br/>"id": 2<br/>}<br/>]<br/>}                        |
 
-#### Filter by type
+#### Filter by type NOT WORKING FOR NOW
 
 ```http
   GET /event/{type}
