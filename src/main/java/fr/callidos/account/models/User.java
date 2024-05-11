@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -63,6 +64,12 @@ public class User {
     @Column(name = "register_ip")
     private String register_ip;
 
+    @Column(name = "register_date")
+    private Date register_date;
+
+    @Column(name = "last_login")
+    private Date last_login;
+
     @ManyToMany(mappedBy = "members")
     private List<EventModel> events = new ArrayList<>();
 
@@ -81,6 +88,22 @@ public class User {
         this.phone = phone;
         this.location = location;
         this.sex = sex;
+    }
+
+    public Date getRegister_date() {
+        return register_date;
+    }
+
+    public void setRegister_date(Date register_date) {
+        this.register_date = register_date;
+    }
+
+    public void setLast_login(Date last_login) {
+        this.last_login = last_login;
+    }
+
+    public Date getLast_login() {
+        return last_login;
     }
 
     public void setSex(String sex) {

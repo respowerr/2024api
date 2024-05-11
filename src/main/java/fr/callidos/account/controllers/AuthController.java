@@ -1,4 +1,5 @@
 package fr.callidos.account.controllers;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -60,6 +61,7 @@ public class AuthController {
         String clientIp = request.getRemoteAddr();
         User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
         user.setLogin_ip(clientIp);
+        user.setLast_login(new Date());
         userRepository.save(user);
 
         return ResponseEntity.ok(new JwtResponse(jwt,

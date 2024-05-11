@@ -1,7 +1,6 @@
 package fr.callidos.account.payload.request;
 
-import java.util.Set;
-
+import java.util.Date;
 import jakarta.validation.constraints.*;
 
 public class SignupRequest {
@@ -43,6 +42,27 @@ public class SignupRequest {
 
     @Size(max = 100)
     private String register_ip;
+
+    private Date register_date;
+
+    private Date last_login;
+
+
+    public Date getRegister_date() {
+        return register_date;
+    }
+
+    public void setRegister_date(Date register_date) {
+        this.register_date = register_date;
+    }
+
+    public void setLast_login(Date last_login) {
+        this.last_login = last_login;
+    }
+
+    public Date getLast_login() {
+        return last_login;
+    }
 
     public void setSex(String sex) {
         this.sex = sex;
