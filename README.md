@@ -176,9 +176,9 @@ There are 4 roles in total in the API:
   POST /tickets
 ```
 
-| Body                              | Description                                                        | JSON                                                                                                      |
-|:----------------------------------|:-------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------|
-| `receiver`<br/>`title`<br/>`desc` | New ticket with JWT username session. Receiver is only ROLE_ADMIN. | {<br/>"receiver": "vador", <br/>"title": "Rebels attack", <br/>"desc": "Rebels attack on Coruscant"<br/>} |
+| Body               | Description                                                        | JSON                                                                             |
+|:-------------------|:-------------------------------------------------------------------|:---------------------------------------------------------------------------------|
+| `title`<br/>`desc` | New ticket with JWT username session. Receiver is only ROLE_ADMIN. | { <br/>"title": "Rebels attack", <br/>"desc": "Rebels attack on Coruscant"<br/>} |
 
 #### Delete a ticket
 
