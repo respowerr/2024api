@@ -2,6 +2,7 @@ package fr.callidos.account.controllers;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import fr.callidos.account.models.User;
@@ -44,6 +45,7 @@ public class AuthController {
     @Autowired
     private HttpServletRequest request;
 
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -61,6 +63,7 @@ public class AuthController {
         String clientIp = request.getRemoteAddr();
         User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
         user.setLogin_ip(clientIp);
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris"));
         user.setLast_login(new Date());
         userRepository.save(user);
 
