@@ -4,6 +4,7 @@ import fr.callidos.account.models.MessageModel;
 import fr.callidos.account.models.TicketModel;
 import fr.callidos.account.repository.MessageRepository;
 import fr.callidos.account.repository.TicketRepository;
+import fr.callidos.account.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,14 @@ public class TicketController {
 
     @Autowired
     private MessageRepository messageRepository;
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/mytickets")
+    public List<TicketModel> myTickets(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String jwtusername = authentication.getName();
+        return ticketRepository.findBySender(jwtusername);
+    }
 
 
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
