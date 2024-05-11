@@ -82,50 +82,39 @@ public class EventController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-    @PostMapping("/{event_id}/join/{username}")
-    public ResponseEntity<String> joinEvent(@PathVariable Long event_id, @PathVariable String username){
+    @PostMapping("/{event_id}/join")
+    public ResponseEntity<String> joinEvent(@PathVariable Long event_id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String loggedInUsername = authentication.getName();
-
-        if(!loggedInUsername.equals(username)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You shall not pass - Gandalf.");
-        }
+        String jwtusername = authentication.getName();
 
         EventModel event = eventRepository.findById(event_id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event " + event_id + " was not found."));
-        Optional<User> existingUserOptional = userRepository.findByUsername(username);
+        Optional<User> existingUserOptional = userRepository.findByUsername(jwtusername);
         if(existingUserOptional.isPresent()) {
             User existingUser = existingUserOptional.get();
             event.addMember(existingUser);
             eventRepository.save(event);
-            return ResponseEntity.ok("User " + username + " joined event " + event_id + " successfully.");
+            return ResponseEntity.ok("User " + jwtusername + " joined event " + event_id + " successfully.");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + username + " was not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + jwtusername + " was not found.");
         }
     }
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-    @DeleteMapping("/{event_id}/quit/{username}")
-    public ResponseEntity<String> quiEvent(@PathVariable Long event_id, @PathVariable String username){
+    @DeleteMapping("/{event_id}/quit")
+    public ResponseEntity<String> quitEvent(@PathVariable Long event_id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String loggedInUsername = authentication.getName();
-
-        if(!loggedInUsername.equals(username)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You shall not pass - Gandalf.");
-        }
+        String jwtusername = authentication.getName();
 
         EventModel event = eventRepository.findById(event_id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event " + event_id + " was not found."));
-        Optional<User> existingUserOptional = userRepository.findByUsername(username);
-        if(existingUserOptional.isPresent()) {
+        Optional<User> existingUserOptional = userRepository.findByUsername(jwtusername);
+
             User existingUser = existingUserOptional.get();
             event.deleteMember(existingUser);
             eventRepository.save(event);
-            return ResponseEntity.ok("User " + username + " quit event " + event_id + " successfully.");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " + username + " was not found.");
-        }
+            return ResponseEntity.ok("User " + jwtusername + " quit event " + event_id + " successfully.");
     }
 
 }
