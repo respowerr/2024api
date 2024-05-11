@@ -32,7 +32,7 @@ public class TicketController {
     public List<TicketModel> myTickets(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String jwtusername = authentication.getName();
-        return ticketRepository.findBySender(jwtusername);
+        return ticketRepository.findBySenderAndResolved(jwtusername, false);
     }
 
 

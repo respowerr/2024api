@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface TicketRepository extends JpaRepository<TicketModel, Long> {
-    List<TicketModel> findBySender(String sender);
+    List<TicketModel> findBySenderAndResolved(String sender, boolean resolved);
 }
