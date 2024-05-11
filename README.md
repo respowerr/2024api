@@ -240,9 +240,9 @@ There are 4 roles in total in the API:
 ```http
   PUT /tickets/{ticket_id}/resolve
 ```
-| Parameter     | Type  | Description                                                                                                                |
-|:--------------|:------|:---------------------------------------------------------------------------------------------------------------------------|
-| `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_ADMIN + Be the receiver of the ticket. <br/> Resolve a ticket by set "resolved" to true. |
+| Parameter     | Type  | Description                                                                                |
+|:--------------|:------|:-------------------------------------------------------------------------------------------|
+| `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_ADMIN. <br/> Resolve a ticket by set "resolved" to true. |
 
 ## VEHICLE - API
 
