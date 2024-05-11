@@ -226,6 +226,15 @@ There are 4 roles in total in the API:
 |:--------------|:------|:----------------------------------------------------------------------------|
 | `{ticket_id}` | `int` | **Required**. JWT Token with ROLE_USER <br/> Show all messages of a ticket. |
 
+#### Show all tickets not resolved for the user
+
+```http
+  GET /tickets/mytickets
+```
+| Description                                                                                                  |
+|:-------------------------------------------------------------------------------------------------------------|
+| **Required**. JWT Token with ROLE_USER <br/> Show all tickets not resolved of the user who made the request. |
+
 #### Resolve a ticket
 
 ```http
