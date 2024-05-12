@@ -146,6 +146,17 @@ public class EventController {
             if (event.isMember(existingUser)) {
                 return ResponseEntity.badRequest().body("User " + jwtusername + " is already a member of event " + event_id + ".");
             }
+
+            List<EventModel> userEvents = eventRepository.findByMembersAndEventStartBetweenOrMembersAndEventEndBetween(existingUser,
+                    event.getEventStart(),
+                    event.getEventEnd(),
+                    existingUser,
+                    event.getEventStart(),
+                    event.getEventEnd());
+            if (!userEvents.isEmpty()) {
+                return ResponseEntity.badRequest().body("User " + jwtusername + " already has an event scheduled during this time.");
+            }
+
             event.addMember(existingUser);
             eventRepository.save(event);
             return ResponseEntity.ok("User " + jwtusername + " joined event " + event_id + " successfully.");
