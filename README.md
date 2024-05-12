@@ -58,6 +58,16 @@ There are 4 roles in total in the API:
 |:----------------------------------------------------------------------|
 | **Required**. JWT Token with ROLE_ADMIN <br/> Get all Helix accounts. |
 
+#### Get all informations of himself
+
+```http
+  GET /account/me
+```
+
+| Description                |
+|:---------------------------|
+| Get all self informations. |
+
 
 #### Account selection
 
