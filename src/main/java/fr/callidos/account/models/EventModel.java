@@ -64,7 +64,8 @@ public class EventModel {
         user.getEvents().add(this);
     }
 
-    public EventModel(String eventName, String eventType, Date eventStart, Date eventEnd, String location, String description) {
+    public EventModel(Long id, String eventName, String eventType, Date eventStart, Date eventEnd, String location, String description) {
+        this.id = id;
         this.eventName = eventName;
         this.eventType = eventType;
         this.eventStart = eventStart;
@@ -83,6 +84,10 @@ public class EventModel {
 
     public void setAccepted(Boolean accepted) {
         this.accepted = accepted;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Boolean getAccepted() {
