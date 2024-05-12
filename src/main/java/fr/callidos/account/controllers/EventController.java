@@ -120,15 +120,19 @@ public class EventController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @PostMapping("/{event_id}/join")
-    public ResponseEntity<String> joinEvent(@PathVariable Long event_id){
+    public ResponseEntity<String> joinEvent(@PathVariable Long event_id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String jwtusername = authentication.getName();
 
         EventModel event = eventRepository.findById(event_id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event " + event_id + " was not found."));
         Optional<User> existingUserOptional = userRepository.findByUsername(jwtusername);
-        if(existingUserOptional.isPresent()) {
+
+        if (existingUserOptional.isPresent()) {
             User existingUser = existingUserOptional.get();
+            if (event.isMember(existingUser)) {
+                return ResponseEntity.badRequest().body("User " + jwtusername + " is already a member of event " + event_id + ".");
+            }
             event.addMember(existingUser);
             eventRepository.save(event);
             return ResponseEntity.ok("User " + jwtusername + " joined event " + event_id + " successfully.");

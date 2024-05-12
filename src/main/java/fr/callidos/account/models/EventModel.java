@@ -74,6 +74,10 @@ public class EventModel {
         this.description = description;
     }
 
+    public boolean isMember(User user) {
+        return members.contains(user);
+    }
+
     public String getCreator() {
         return creator;
     }
@@ -143,5 +147,4 @@ public class EventModel {
     public String getLocation() {
         return location;
     }
-
 }
