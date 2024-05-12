@@ -83,9 +83,13 @@ public class EventController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<String> createEvent(@RequestBody EventModel event){
+    public ResponseEntity<String> createEvent(@RequestBody EventModel event) throws ParseException{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String jwtusername = authentication.getName();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        event.setEventStart(dateFormat.parse(event.getEventStartFormattedDate()));
+        event.setEventEnd(dateFormat.parse(event.getEventEndFormattedDate()));
 
         event.setCreator(jwtusername);
         event.setAccepted(true);
