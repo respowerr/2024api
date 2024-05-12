@@ -104,9 +104,9 @@ There are 4 roles in total in the API:
   POST /event/{id}/join
 ```
 
-| Parameter | Type  | Description                                                                                        |
-|:----------|:------|:---------------------------------------------------------------------------------------------------|
-| `{id}`    | `int` | **Required**. JWT Token with ROLE_USER<br/>Join an event.                                          |
+| Parameter | Type  | Description                                                                                      |
+|:----------|:------|:-------------------------------------------------------------------------------------------------|
+| `{id}`    | `int` | **Required**. JWT Token with ROLE_USER<br/>Join an event. It's impossible to overlapping events. |
 
 #### Leave an event
 
