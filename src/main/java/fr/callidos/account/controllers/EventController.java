@@ -61,6 +61,18 @@ public class EventController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/accept/{request_id}")
+    public ResponseEntity<String> acceptRequest(@PathVariable Long request_id) {
+        EventModel event = eventRepository.findById(request_id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Request " + request_id + " not found."));
+
+        event.setAccepted(true);
+        eventRepository.save(event);
+
+        return ResponseEntity.ok("Request " + request_id + " was accepted successfully.");
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<String> createEvent(@RequestBody EventModel event){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
