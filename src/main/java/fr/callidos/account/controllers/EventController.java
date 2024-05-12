@@ -10,6 +10,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import fr.callidos.account.repository.UserRepository;
+
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.security.core.Authentication;
@@ -27,12 +31,17 @@ public class EventController {
 
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PostMapping("/request")
-    public ResponseEntity<String> newRequest(@RequestBody EventModel event) {
+    public ResponseEntity<String> newRequest(@RequestBody EventModel event) throws ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String jwtusername = authentication.getName();
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        event.setEventStart(dateFormat.parse(event.getEventStartFormattedDate()));
+        event.setEventEnd(dateFormat.parse(event.getEventEndFormattedDate()));
+
         event.setCreator(jwtusername);
         event.setAccepted(false);
+
         eventRepository.save(event);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("The request to create your event has been registered.");

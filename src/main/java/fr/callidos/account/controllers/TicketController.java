@@ -84,7 +84,7 @@ public class TicketController {
         newMessage.setSender(jwtusername);
         newMessage.setMessage(message.getMessage());
         newMessage.setTicket(ticket);
-        newMessage.setDate(new Date());
+        //newMessage.setDate(new Date());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         newMessage.setDate(dateFormat.parse(dateFormat.format(new Date())));
 

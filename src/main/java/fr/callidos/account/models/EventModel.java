@@ -3,14 +3,15 @@ package fr.callidos.account.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import java.sql.Date;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "events", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "event_name")
-})
+@Table(name = "events")
 public class EventModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +27,12 @@ public class EventModel {
     @Size(min = 3, max = 20)
     private String eventType;
 
-    @Column(name = "event_start", columnDefinition = "DATETIME")
+    @Column(name = "event_start")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date eventStart;
 
-    @Column(name = "event_end", columnDefinition = "DATETIME")
+    @Column(name = "event_end")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date eventEnd;
 
     @Column(name = "location")
@@ -74,6 +77,23 @@ public class EventModel {
         this.description = description;
     }
 
+
+    public Date getEventStart() {
+        return eventStart;
+    }
+
+    public void setEventStart(Date eventStart) {
+        this.eventStart = eventStart;
+    }
+
+    public void setEventEnd(Date eventEnd) {
+        this.eventEnd = eventEnd;
+    }
+
+    public Date getEventEnd() {
+        return eventEnd;
+    }
+
     public boolean isMember(User user) {
         return members.contains(user);
     }
@@ -98,8 +118,6 @@ public class EventModel {
         return accepted;
     }
 
-    public EventModel() {}
-
     public String getDescription() {
         return description;
     }
@@ -116,14 +134,6 @@ public class EventModel {
         this.eventType = eventType;
     }
 
-    public void setEventStart(Date eventStart) {
-        this.eventStart = eventStart;
-    }
-
-    public void setEventEnd(Date eventEnd) {
-        this.eventEnd = eventEnd;
-    }
-
     public void setLocation(String location) {
         this.location = location;
     }
@@ -136,15 +146,18 @@ public class EventModel {
         return eventType;
     }
 
-    public Date getEventStart() {
-        return eventStart;
-    }
-
-    public Date getEventEnd() {
-        return eventEnd;
-    }
-
     public String getLocation() {
         return location;
+    }
+
+    public EventModel() {}
+
+    public String getEventStartFormattedDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return dateFormat.format(eventStart);
+    }
+    public String getEventEndFormattedDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return dateFormat.format(eventEnd);
     }
 }
