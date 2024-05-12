@@ -140,6 +140,18 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully, welcome to Helix !"));
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<?> getMyProfile(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String jwtusername = authentication.getName();
+        Optional<User> userOptional = userRepository.findByUsername(jwtusername);
+        if (userOptional.isPresent()) {
+            return ResponseEntity.ok(userOptional.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sorry, you are not login.");
+        }
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id){
