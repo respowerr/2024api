@@ -34,9 +34,9 @@ There are 4 roles in total in the API:
   POST /account/register
 ```
 
-| Body                                                                                       | Description | JSON                                                                                                                                                                                                        |
-|:-------------------------------------------------------------------------------------------|:------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `username`<br/>`password`<br/>`email`<br/>`phone`<br/>`name`<br/>`lastName`<br/>`location` | SignUp      | {<br/>"username": "ben",<br/>"password": "@nakin###!",<br/>"email": "okenobi@jeditemple.com",<br/>"phone": "0123456789",<br/>"name": "obi-wan",<br/>"lastName": "Kenobi",<br/>"location": "Coruscant"<br/>} |
+| Body                                                                                                 | Description | JSON                                                                                                                                                                                                                        |
+|:-----------------------------------------------------------------------------------------------------|:------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `username`<br/>`password`<br/>`email`<br/>`phone`<br/>`name`<br/>`lastName`<br/>`location`<br/>`sex` | SignUp      | {<br/>"username": "ben",<br/>"password": "@nakin###!",<br/>"email": "okenobi@jeditemple.com",<br/>"phone": "0123456789",<br/>"name": "obi-wan",<br/>"lastName": "Kenobi",<br/>"location": "Coruscant",<br/>"sex": "M"<br/>} |
 
 #### Login
 
@@ -125,11 +125,11 @@ There are 4 roles in total in the API:
   POST /event
 ```
 
-| Body                                                                                                       | Description                                                   | JSON                                                                                                                                                                                                                                                                             |
-|:-----------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `eventName`<br/>`eventType`<br/>`eventStart`<br/>`eventEnd`<br/>`members`<br/>`location`<br/>`description` | **Required**. JWT Token with ROLE_ADMIN<br/> Create an event. | {<br/>"eventName": "Starfleet com",<br/>"eventType": "Conference",<br/>"eventStart": "2024-05-09", <br/>"eventEnd": "2024-05-09", <br/>"location": "USS-1701", <br/>"description" : "Spock speech", <br/>"members": [<br/>{<br/>"id": 2<br/>}<br/>]<br/>}                        |
+| Body                                                                                         | Description                                                   | JSON                                                                                                                                                                                                      |
+|:---------------------------------------------------------------------------------------------|:--------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `eventName`<br/>`eventType`<br/>`eventStart`<br/>`eventEnd`<br/>`location`<br/>`description` | **Required**. JWT Token with ROLE_ADMIN<br/> Create an event. | {<br/>"eventName": "Starfleet com",<br/>"eventType": "Conference",<br/>"eventStart": "2024-05-09", <br/>"eventEnd": "2024-05-09", <br/>"location": "USS-1701", <br/>"description" : "Spock speech" <br/>} |
 
-#### Filter by type NOT WORKING FOR NOW
+#### Filter by type ( NOT WORKING FOR NOW )
 
 ```http
   GET /event/{type}
@@ -154,9 +154,9 @@ There are 4 roles in total in the API:
   PUT /event/{id}
 ```
 
-| Parameter | Type  | Body                                                                                                     | Description                                                                 |
-|:----------|:------|:---------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------|
-| `{id}`    | `int` | `eventName`<br/>`eventType`<br/>`eventStart`<br/>`eventEnd`<br/>`users`<br/>`location`<br/>`description` | **Required**. JWT Token with ROLE_ADMIN<br/> Modify an event information's. |
+| Parameter | Type  | Body                                                                                         | Description                                                                 |
+|:----------|:------|:---------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------|
+| `{id}`    | `int` | `eventName`<br/>`eventType`<br/>`eventStart`<br/>`eventEnd`<br/>`location`<br/>`description` | **Required**. JWT Token with ROLE_ADMIN<br/> Modify an event information's. |
 
 
 ```http
@@ -167,6 +167,35 @@ There are 4 roles in total in the API:
 |:----------|:------|:------------------------------------------------------------|
 | `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Delete event. |
 
+#### Request a new event
+
+```http
+  POST /event/request
+```
+
+| JSON BODY                                                                                    | Description                                                                |
+|:---------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------|
+| `eventName`<br/>`eventType`<br/>`eventStart`<br/>`eventEnd`<br/>`location`<br/>`description` | **Required**. JWT Token with ROLE_ADMIN<br/> Create a new event's request. |
+
+#### Get all requests
+
+```http
+  GET /event/request
+```
+
+| Description                                                     |
+|:----------------------------------------------------------------|
+| **Required**. JWT Token with ROLE_ADMIN <br/> Get all requests. |
+
+#### Accept request
+
+```http
+  POST /event/accept/{request_id}
+```
+
+| Parameter      | Type  | Description                                                     |
+|:---------------|:------|:----------------------------------------------------------------|
+| `{request_id}` | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Accept a request. |
 
 ## TICKETING - API
 
