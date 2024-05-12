@@ -14,7 +14,7 @@ import java.util.List;
 public class EventModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long event_id;
+    Long id;
 
     @Column(name = "event_name")
     @NotBlank
@@ -89,10 +89,6 @@ public class EventModel {
         return accepted;
     }
 
-    public Long getEvent_id() {
-        return event_id;
-    }
-
     public EventModel() {}
 
     public String getDescription() {
@@ -121,10 +117,6 @@ public class EventModel {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public Long getId() {
-        return event_id;
     }
 
     public String getEventName() {
