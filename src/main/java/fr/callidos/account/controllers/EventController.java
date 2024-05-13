@@ -86,8 +86,8 @@ public class EventController {
         return ResponseEntity.ok(type);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
-    @GetMapping("/types/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/types/{id}")
     public ResponseEntity<String> deleteTypeById(@PathVariable Long id){
         eventTypeRepository.deleteById(id);
         return ResponseEntity.ok("Type " + id + " was deleted sucessfully.");
