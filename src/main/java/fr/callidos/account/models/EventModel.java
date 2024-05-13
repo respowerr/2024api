@@ -188,4 +188,34 @@ public class EventModel {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return dateFormat.format(eventEnd);
     }
+
+    @Entity
+    @Table(name = "event_types")
+    public static class EventType{
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+
+        @Column(name = "name")
+        @NotBlank
+        @Size(min = 3, max = 20)
+        private String name;
+
+        public EventType(){}
+
+        public EventType(String name){
+            this.name = name;
+        }
+
+        public Long getId(){
+            return id;
+        }
+        public String getName(){
+            return name;
+        }
+        public void setName(String name){
+            this.name = name;
+        }
+    }
+
 }
