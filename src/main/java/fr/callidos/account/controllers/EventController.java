@@ -5,6 +5,7 @@ import fr.callidos.account.models.User;
 import fr.callidos.account.models.VehicleModel;
 import fr.callidos.account.payload.request.EventRequest;
 import fr.callidos.account.repository.EventRepository;
+import fr.callidos.account.repository.EventTypeRepository;
 import fr.callidos.account.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,9 @@ public class EventController {
 
     @Autowired
     private VehicleRepository vehicleRepository;
+
+    @Autowired
+    private EventTypeRepository eventTypeRepository;
 
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
     @PostMapping("/request")
@@ -65,6 +69,28 @@ public class EventController {
     public ResponseEntity<List<EventModel>> getAllEvents(){
         List<EventModel> events = eventRepository.findByAcceptedTrue();
         return ResponseEntity.ok(events);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
+    @GetMapping("/types")
+    public ResponseEntity<List<EventModel.EventType>> getAllTypes(){
+        List<EventModel.EventType> types = eventTypeRepository.findAll();
+        return ResponseEntity.ok(types);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
+    @GetMapping("/types/{id}")
+    public ResponseEntity<EventModel.EventType> getTypeById(@PathVariable Long id){
+        EventModel.EventType type = eventTypeRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Type not found."));
+        return ResponseEntity.ok(type);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
+    @GetMapping("/types/{id}")
+    public ResponseEntity<String> deleteTypeById(@PathVariable Long id){
+        eventTypeRepository.deleteById(id);
+        return ResponseEntity.ok("Type " + id + " was deleted sucessfully.");
     }
 
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
