@@ -1,8 +1,5 @@
 package fr.callidos.account.controllers;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import fr.callidos.account.models.User;
@@ -202,6 +199,19 @@ public class AuthController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/parity")
+    public ResponseEntity<?> getParity(){
+        long manCount = userRepository.countBySex("M");
+        long womenCount = userRepository.countBySex("F");
+
+        Map<String, Long> parity = new HashMap<>();
+        parity.put("M", manCount);
+        parity.put("F", womenCount);
+        return ResponseEntity.ok(parity);
+
     }
 
 
