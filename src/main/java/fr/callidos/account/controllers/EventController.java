@@ -102,6 +102,19 @@ public class EventController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/{event_id}/members")
+    public ResponseEntity<List<String>> getEventMembers(@PathVariable Long event_id){
+        EventModel event = eventRepository.findById(event_id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event " + event_id + " not found."));
+        List<User> members = event.getMembers();
+        List<String> usernames = new ArrayList<>();
+        for (User member : members) {
+            usernames.add(member.getUsername());
+        }
+        return ResponseEntity.ok(usernames);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/accept/{request_id}")
     public ResponseEntity<String> acceptRequest(@PathVariable Long request_id) {
         EventModel event = eventRepository.findById(request_id)

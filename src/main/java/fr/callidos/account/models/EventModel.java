@@ -56,6 +56,7 @@ public class EventModel {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "id")
     )
+    @JsonIgnore
     private List<User> members = new ArrayList<>();
 
     @ManyToMany
@@ -105,6 +106,9 @@ public class EventModel {
         this.description = description;
     }
 
+    public List<User> getMembers() {
+        return members;
+    }
 
     public Date getEventStart() {
         return eventStart;
