@@ -103,6 +103,10 @@ public class EventController {
         event.setCreator(jwtusername);
         event.setAccepted(true);
 
+        User creator = userRepository.findByUsername(jwtusername)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        event.addMember(creator);
+
         List<VehicleModel> vehicles = new ArrayList<>();
         if (vehicleIds != null && !vehicleIds.isEmpty()) {
             for (Long vehicleId : vehicleIds) {
