@@ -134,6 +134,19 @@ Default types :
 |:----------|:------|:-------------------------------------------------------------------------------------------------|
 | `{id}`    | `int` | **Required**. JWT Token with ROLE_USER<br/>Join an event. It's impossible to overlapping events. |
 
+#### Get a list of all members of an event
+
+```http
+  GET /event/{event_id}/members
+```
+
+| Parameter    | Type  | Description                                                                |
+|:-------------|:------|:---------------------------------------------------------------------------|
+| `{event_id}` | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Get all members of an event. |
+
+#### Get type by id
+
+
 #### Get all events types
 
 ```http
