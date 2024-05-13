@@ -65,6 +65,10 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Banned account.");
         }
 
+        if (!user.isValidated()){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This account has not yet been validated.");
+        }
+
         user.setLogin_ip(clientIp);
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris"));
         user.setLast_login(new Date());

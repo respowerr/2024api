@@ -72,6 +72,9 @@ public class User {
     @Column(name = "last_login")
     private Date last_login;
 
+    @Column(name = "validated", nullable = false)
+    private boolean validated;
+
     @ManyToMany(mappedBy = "members")
     private List<EventModel> events = new ArrayList<>();
 
@@ -90,6 +93,15 @@ public class User {
         this.phone = phone;
         this.location = location;
         this.sex = sex;
+    }
+
+
+    public void setValidated(boolean validated) {
+        this.validated = validated;
+    }
+
+    public boolean isValidated() {
+        return validated;
     }
 
     public Date getRegister_date() {
