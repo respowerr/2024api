@@ -68,6 +68,16 @@ There are 4 roles in total in the API:
 |:---------------------------|
 | Get all self informations. |
 
+#### Get members parity
+
+```http
+  GET /account/parity
+```
+
+| Description                                                       |
+|:------------------------------------------------------------------|
+| **Required**. JWT Token with ROLE_ADMIN <br/> Get members parity. |
+
 
 #### Account selection
 
