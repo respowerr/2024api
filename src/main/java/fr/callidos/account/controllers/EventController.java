@@ -2,7 +2,10 @@ package fr.callidos.account.controllers;
 
 import fr.callidos.account.models.EventModel;
 import fr.callidos.account.models.User;
+import fr.callidos.account.models.VehicleModel;
+import fr.callidos.account.payload.request.EventRequest;
 import fr.callidos.account.repository.EventRepository;
+import fr.callidos.account.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import fr.callidos.account.repository.UserRepository;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.security.core.Authentication;
@@ -28,6 +31,9 @@ public class EventController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private VehicleRepository vehicleRepository;
 
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PostMapping("/request")
@@ -83,9 +89,12 @@ public class EventController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<String> createEvent(@RequestBody EventModel event) throws ParseException{
+    public ResponseEntity<String> createEvent(@RequestBody EventRequest eventRequest) throws ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String jwtusername = authentication.getName();
+
+        EventModel event = eventRequest.getEvent();
+        List<Long> vehicleIds = eventRequest.getVehicleIds();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         event.setEventStart(dateFormat.parse(event.getEventStartFormattedDate()));
@@ -94,9 +103,15 @@ public class EventController {
         event.setCreator(jwtusername);
         event.setAccepted(true);
 
-        User creator = userRepository.findByUsername(jwtusername)
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        event.addMember(creator);
+        List<VehicleModel> vehicles = new ArrayList<>();
+        if (vehicleIds != null && !vehicleIds.isEmpty()) {
+            for (Long vehicleId : vehicleIds) {
+                Optional<VehicleModel> optionalVehicle = vehicleRepository.findById(vehicleId);
+                optionalVehicle.ifPresent(vehicles::add);
+            }
+        }
+        event.setVehicles(vehicles);
+
         eventRepository.save(event);
         return ResponseEntity.status(HttpStatus.CREATED).body("Event created with success.");
     }

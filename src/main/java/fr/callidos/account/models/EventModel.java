@@ -1,5 +1,6 @@
 package fr.callidos.account.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -56,6 +57,33 @@ public class EventModel {
             inverseJoinColumns = @JoinColumn(name = "id")
     )
     private List<User> members = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "event_vehicles",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "vehicle_id")
+    )
+    @JsonIgnore
+    private List<VehicleModel> vehicles = new ArrayList<>();
+
+    public void addVehicle(VehicleModel vehicle) {
+        vehicles.add(vehicle);
+        vehicle.getEvents().add(this);
+    }
+
+    public void removeVehicle(VehicleModel vehicle) {
+        vehicles.remove(vehicle);
+        vehicle.getEvents().remove(this);
+    }
+
+    public List<VehicleModel> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(List<VehicleModel> vehicles) {
+        this.vehicles = vehicles;
+    }
 
     public void addMember(User user) {
         members.add(user);

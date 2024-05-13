@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "vehicles", uniqueConstraints = { @UniqueConstraint(columnNames = "id_plate")})
 public class VehicleModel {
@@ -25,6 +28,9 @@ public class VehicleModel {
     @Column(name = "model")
     private String model;
 
+    @ManyToMany(mappedBy = "vehicles")
+    private List<EventModel> events = new ArrayList<>();
+
     public VehicleModel() {
     }
 
@@ -34,6 +40,24 @@ public class VehicleModel {
         this.fret_capacity = fret_capacity;
         this.human_capacity = human_capacity;
         this.model = model;
+    }
+
+    public void addEvent(EventModel event) {
+        events.add(event);
+        event.getVehicles().add(this);
+    }
+
+    public void removeEvent(EventModel event) {
+        events.remove(event);
+        event.getVehicles().remove(this);
+    }
+
+    public List<EventModel> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<EventModel> events) {
+        this.events = events;
     }
 
     public Long getId() {
