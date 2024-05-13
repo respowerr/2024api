@@ -108,6 +108,12 @@ There are 4 roles in total in the API:
 
 ## EVENT - API
 
+Default types :
+- Maraude
+- Conférence
+- soutien scolaire
+
+
 #### Get all active events
 
 ```http
