@@ -142,6 +142,11 @@ public class EventController {
         }
         event.setVehicles(vehicles);
 
+        EventModel.EventType eventType = eventTypeRepository.findByName(event.getEventType());
+        if (eventType == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid type.");
+        }
+
         eventRepository.save(event);
         return ResponseEntity.status(HttpStatus.CREATED).body("Event created with success.");
     }
