@@ -128,6 +128,37 @@ There are 4 roles in total in the API:
 |:----------|:------|:-------------------------------------------------------------------------------------------------|
 | `{id}`    | `int` | **Required**. JWT Token with ROLE_USER<br/>Join an event. It's impossible to overlapping events. |
 
+#### Get all events types
+
+```http
+  GET /event/types
+```
+
+| Description                                                           |
+|:----------------------------------------------------------------------|
+| **Required**. JWT Token with ROLE_USER <br/> Get all types of events. |
+
+#### Delete type
+
+```http
+  DELETE /event/types/{id}
+```
+
+| Parameter | Type  | Description                                                 |
+|:----------|:------|:------------------------------------------------------------|
+| `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> Delete types. |
+
+#### Get type by id
+
+```http
+  GET /event/types/{id}
+```
+
+| Parameter | Type  | Description                                                      |
+|:----------|:------|:-----------------------------------------------------------------|
+| `{id}`    | `int` | **Required**. JWT Token with ROLE_ADMIN <br/> get specific type. |
+
+
 #### Leave an event
 
 ```http
