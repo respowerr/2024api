@@ -218,6 +218,19 @@ public class AuthController {
 
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/validate/{id}")
+    public ResponseEntity<?> validateUser(@PathVariable Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setValidated(true);
+            userRepository.save(user);
+            return ResponseEntity.ok(new MessageResponse("User is validated."));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")

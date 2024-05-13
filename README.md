@@ -48,6 +48,15 @@ There are 4 roles in total in the API:
 |:--------------------------|:------------|:------------------------------------------------------------|
 | `username`<br/>`password` | SignIn      | {<br/>"username": "ben",<br/>"password": "@nakin###!"<br/>} |
 
+#### Validate a user
+
+```http
+  PUT /account/validate/{user_id}
+```
+| Parameter   | Description                                                        |
+|:------------|:-------------------------------------------------------------------|
+| `{user_id}` | **Required**. JWT Token with ROLE_ADMIN <br/> Validate an account. |
+
 #### Get all accounts
 
 ```http
