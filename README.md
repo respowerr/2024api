@@ -145,9 +145,9 @@ There are 4 roles in total in the API:
   POST /event
 ```
 
-| Body                                                                                         | Description                                                   | JSON                                                                                                                                                                                                      |
-|:---------------------------------------------------------------------------------------------|:--------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `eventName`<br/>`eventType`<br/>`eventStart`<br/>`eventEnd`<br/>`location`<br/>`description` | **Required**. JWT Token with ROLE_ADMIN<br/> Create an event. | {<br/>"eventName": "Starfleet com",<br/>"eventType": "Conference",<br/>"eventStart": "2024-05-09", <br/>"eventEnd": "2024-05-09", <br/>"location": "USS-1701", <br/>"description" : "Spock speech" <br/>} |
+| Body                                                                                         | Description                                                   | JSON                                                                                                                                                                                                                                                                  |
+|:---------------------------------------------------------------------------------------------|:--------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `eventName`<br/>`eventType`<br/>`eventStart`<br/>`eventEnd`<br/>`location`<br/>`description` | **Required**. JWT Token with ROLE_ADMIN<br/> Create an event. | {<br/>"event": {<br/>"eventName": "Starfleet com",<br/>"eventType": "Conference",<br/>"eventStart": "2024-05-09T20:00", <br/>"eventEnd": "2024-05-09T21:00", <br/>"location": "USS-1701", <br/>"description" : "Spock speech" <br/>},<br/>"vehicleIds": [1,2,3]<br/>} |
 
 #### Filter by type ( NOT WORKING FOR NOW )
 
