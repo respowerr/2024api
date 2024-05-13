@@ -93,6 +93,10 @@ public class EventController {
 
         event.setCreator(jwtusername);
         event.setAccepted(true);
+
+        User creator = userRepository.findByUsername(jwtusername)
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        event.addMember(creator);
         eventRepository.save(event);
         return ResponseEntity.status(HttpStatus.CREATED).body("Event created with success.");
     }
