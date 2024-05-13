@@ -35,7 +35,7 @@ public class EventController {
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
     @PostMapping("/request")
     public ResponseEntity<String> newRequest(@RequestBody EventModel event) throws ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -60,14 +60,14 @@ public class EventController {
         return ResponseEntity.ok(requests);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
     @GetMapping
     public ResponseEntity<List<EventModel>> getAllEvents(){
         List<EventModel> events = eventRepository.findByAcceptedTrue();
         return ResponseEntity.ok(events);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
     @GetMapping("/{event_id}")
     public ResponseEntity<EventModel> getEventById(@PathVariable Long event_id){
         EventModel event = eventRepository.findById(event_id)
@@ -154,7 +154,7 @@ public class EventController {
         return ResponseEntity.ok("Event " + event_id + " was deleted sucessfully.");
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
     @PostMapping("/{event_id}/join")
     public ResponseEntity<String> joinEvent(@PathVariable Long event_id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -189,7 +189,7 @@ public class EventController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
     @DeleteMapping("/{event_id}/quit")
     public ResponseEntity<String> quitEvent(@PathVariable Long event_id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

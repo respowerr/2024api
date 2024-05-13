@@ -30,7 +30,7 @@ public class TicketController {
     @Autowired
     private MessageRepository messageRepository;
 
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
     @GetMapping("/mytickets")
     public List<TicketModel> myTickets(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -39,7 +39,7 @@ public class TicketController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{ticketId}/resolve")
     public ResponseEntity<?> resolveTicket(@PathVariable Long ticketId) {
         TicketModel ticket = ticketRepository.findById(ticketId)
@@ -50,7 +50,7 @@ public class TicketController {
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
     @GetMapping("/{ticketId}/messages")
     public List<Object> getAllMessagesOfTicket(@PathVariable Long ticketId) {
         TicketModel ticket = ticketRepository.findById(ticketId)
@@ -70,7 +70,7 @@ public class TicketController {
                 .collect(Collectors.toList());
     }
 
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')") // A corriger car un user peut accèder aux tickets de tout le monde.
     @PostMapping("/{ticketId}/messages")
     public MessageModel addMessageToTicket(@PathVariable Long ticketId,
                                            @RequestBody MessageModel message) throws ParseException {
@@ -90,12 +90,12 @@ public class TicketController {
 
         return messageRepository.save(newMessage);
     }
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public List<TicketModel> getAllTickets(){
         return ticketRepository.findAll();
     }
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_BENEFICIAIRE') or hasRole('ROLE_PARTENAIRE')")
     @PostMapping
     public TicketModel newTicket(@RequestBody TicketModel ticket){
         TicketModel newTicket = new TicketModel();
@@ -108,13 +108,13 @@ public class TicketController {
         newTicket.setDesc(ticket.getDesc());
         return ticketRepository.save(newTicket);
     }
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public TicketModel getTicketById(@PathVariable(value = "id") Long ticketId){
         return ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new RuntimeException("Ticket N°" + ticketId + " was not found."));
     }
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteTicket(@PathVariable(value = "id") Long ticketId) {
         TicketModel ticket = ticketRepository.findById(ticketId)
