@@ -60,7 +60,7 @@ There are 4 roles in total in the API:
 #### Get all not validate users
 
 ```http
-  GET /account/notvalidated
+  GET /account/not-validated
 ```
 | Parameter   | Description                                                                  |
 |:------------|:-----------------------------------------------------------------------------|
