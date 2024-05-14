@@ -57,6 +57,15 @@ There are 4 roles in total in the API:
 |:------------|:-------------------------------------------------------------------|
 | `{user_id}` | **Required**. JWT Token with ROLE_ADMIN <br/> Validate an account. |
 
+#### Get all not validate users
+
+```http
+  GET /account/notvalidated
+```
+| Parameter   | Description                                                                  |
+|:------------|:-----------------------------------------------------------------------------|
+| `{user_id}` | **Required**. JWT Token with ROLE_ADMIN <br/> Get all not validate accounts. |
+
 #### Get all accounts
 
 ```http

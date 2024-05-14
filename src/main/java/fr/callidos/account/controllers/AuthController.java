@@ -236,6 +236,14 @@ public class AuthController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/notvalidated")
+    public ResponseEntity<?> getAllUsersNotValidated(){
+        List<User> notValidated = userRepository.findByValidatedFalse();
+        return ResponseEntity.ok(notValidated);
+
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id){
         if (!userRepository.existsById(id)){
