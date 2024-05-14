@@ -198,6 +198,9 @@ public class AuthController {
             if (userDetails.getRole() != null){
                 user.setRole(userDetails.getRole());
             }
+            if (userDetails.getLocation() != null){
+                user.setLocation(userDetails.getLocation());
+            }
             final User putuser = userRepository.save(user);
             return ResponseEntity.ok(putuser);
         } else {
