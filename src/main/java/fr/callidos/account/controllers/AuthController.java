@@ -237,12 +237,17 @@ public class AuthController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/not-validated")
-    public ResponseEntity<?> getAllUsernamesNotValidated() {
-        List<String> notValidatedUsernames = userRepository.findByValidatedFalse()
+    public ResponseEntity<?> getAllUsernamesAndIdsNotValidated() {
+        List<Map<String, Object>> notValidatedUsernamesAndIds = userRepository.findByValidatedFalse()
                 .stream()
-                .map(User::getUsername)
+                .map(user -> {
+                    Map<String, Object> userData = new HashMap<>();
+                    userData.put("id", user.getId());
+                    userData.put("username", user.getUsername());
+                    return userData;
+                })
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(notValidatedUsernames);
+        return ResponseEntity.ok(notValidatedUsernamesAndIds);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
